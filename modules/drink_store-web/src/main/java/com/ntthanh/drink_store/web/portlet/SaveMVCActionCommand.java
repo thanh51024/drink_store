@@ -17,7 +17,7 @@ import org.osgi.service.component.annotations.Reference;
 	    service = MVCActionCommand.class,
 		property= {
 				"javax.portlet.name=" +DrinkStoreControllerPortletKeys.DRINKSTORECONTROLLER,
-				"mvc.command.name=saveDrink"
+				"mvc.command.name=/saveDrink"
 		}
 		)
 public class SaveMVCActionCommand extends BaseMVCActionCommand{
