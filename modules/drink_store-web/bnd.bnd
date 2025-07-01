@@ -1,0 +1,4 @@
+Bundle-Name: drink_store-web
+Bundle-SymbolicName: com.ntthanh.drink_store.web
+Bundle-Version: 1.0.0
+Export-Package: com.ntthanh.drink_store.web.constants

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.ntthanh.drink_store.model.Drink">
+		<field name="id" type="long" />
+		<field name="drinkName" type="String" />
+		<field name="category" type="String" />
+		<field name="price" type="double" />
+		<field name="imageUrl" type="String" />
+	</model>
+	<model name="com.ntthanh.drink_store.model.OrderDetail">
+		<field name="id" type="long" />
+		<field name="orderId" type="long" />
+		<field name="drinkId" type="long" />
+		<field name="number" type="int" />
+		<field name="price" type="double" />
+		<field name="size" type="String" />
+		<field name="note" type="String" />
+	</model>
+	<model name="com.ntthanh.drink_store.model.OrderDrink">
+		<field name="id" type="long" />
+		<field name="tableId" type="long" />
+		<field name="totalAmount" type="double" />
+		<field name="orderDate" type="Date" />
+		<field name="paid" type="boolean" />
+	</model>
+	<model name="com.ntthanh.drink_store.model.TableDrink">
+		<field name="id" type="long" />
+		<field name="tableNumber" type="int" />
+		<field name="seats" type="int" />
+		<field name="status" type="String" />
+	</model>
+</model-hints>

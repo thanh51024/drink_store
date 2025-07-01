@@ -1,0 +1,10 @@
+Bundle-Name: drink_store-api
+Bundle-SymbolicName: com.ntthanh.drink_store.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.ntthanh.drink_store.exception,\
+	com.ntthanh.drink_store.model,\
+	com.ntthanh.drink_store.service,\
+	com.ntthanh.drink_store.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../drink_store-service/service.xml

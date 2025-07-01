@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
+
+<service-builder dependency-injector="ds" package-path="com.ntthanh.drink_store">
+	<namespace>DRINK_STORE</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	
+	<entity local-service="true" name="Drink" remote-service="true">
+		<!-- PK fields khóa chính-->
+		<column name="id" primary="true" type="long" />
+		<column name="drinkName" type="String" />
+		<column name="category" type="String" />
+		<column name="price" type="double" />
+		<column name="imageUrl" type="String" />
+
+		<!-- Order sắp xếp tăng dần khi findAll()-->
+		<order by="asc">
+			<order-column name="drinkName" />
+		</order>
+
+		<!-- Finder methods hàm lọc: tên hàm: Name; tên cột cần tìm name: trả về bản ghi Collection
+		List<String> name = drinkLocalServiceUtil.findByName(String);-->
+		<finder name="DrinkName" return-type="Collection"> 
+			<finder-column name="drinkName" />
+			<finder-column name="category" />
+		</finder>
+		<finder name="Category" return-type="Collection"> 
+			<finder-column name="category" />
+		</finder>
+		<finder name="Price" return-type="Collection"> 
+			<finder-column name="price" />
+		</finder>
+	</entity>
+	
+	
+	<entity local-service="true" name="TableDrink" remote-service="true">
+		<!-- PK fields khóa chính-->
+		<column name="id" primary="true" type="long" />
+		<column name="tableNumber" type="int" />
+		<column name="seats" type="int" />
+		<column name="status" type="String" />
+
+		<!-- Order sắp xếp tăng dần khi findAll()-->
+		<order by="asc">
+			<order-column name="tableNumber" />
+		</order>
+
+		<!-- Finder methods  -->
+		<finder name="TableNumber" return-type="Collection"> 
+			<finder-column name="tableNumber" />
+		</finder>
+		<finder name="Status" return-type="Collection"> 
+			<finder-column name="status" />
+		</finder>
+		<finder name="Seats" return-type="Collection"> 
+			<finder-column name="seats" />
+		</finder>
+	</entity>
+	
+	
+	<entity local-service="true" name="OrderDrink" remote-service="true">
+		<!-- PK fields khóa chính-->
+		<column name="id" primary="true" type="long" />
+		<column name="tableId" type="long" />
+		<column name="totalAmount" type="double" />
+		<column name="orderDate" type="Date" />
+		<column name="paid" type="boolean" />
+
+		<!-- Order sắp xếp tăng dần khi findAll()-->
+		<order by="asc">
+			<order-column name="orderDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="OrderDate" return-type="Collection"> 
+			<finder-column name="orderDate" />
+		</finder>
+	</entity>
+	
+	
+	<entity local-service="true" name="OrderDetail" remote-service="true">
+		<!-- PK fields khóa chính-->
+		<column name="id" primary="true" type="long" />
+		<column name="orderId" type="long" />
+		<column name="drinkId" type="long" />
+		<column name="number" type="int" />
+		<column name="price" type="double" />
+		<column name="size" type="String" />       
+    	<column name="note" type="String" />
+    	
+		<!-- Order sắp xếp tăng dần khi findAll()-->
+		<order by="desc">
+			<order-column name="orderId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="OrderId" return-type="Collection"> 
+			<finder-column name="orderId" />
+		</finder>
+	</entity>
+	
+</service-builder>

@@ -1,0 +1,13 @@
+dependencies {
+	compile project(":modules:drink_store:drink_store-api")
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.4.3.107-ga107"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
+	
+}
+
+buildService {
+	apiDir = "../drink_store-api/src/main/java"
+}
+
+group = "com.ntthanh.drink_store"
