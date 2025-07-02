@@ -328,6 +328,16 @@ public class DrinkLocalServiceWrapper
 	}
 
 	@Override
+	public com.ntthanh.drink_store.model.Drink updateDrink(
+			long drinkId, String name, String category, long price,
+			String imageUrl)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _drinkLocalService.updateDrink(
+			drinkId, name, category, price, imageUrl);
+	}
+
+	@Override
 	public DrinkLocalService getWrappedService() {
 		return _drinkLocalService;
 	}

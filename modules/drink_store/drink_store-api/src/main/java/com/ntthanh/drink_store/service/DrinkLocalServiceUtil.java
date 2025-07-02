@@ -294,6 +294,15 @@ public class DrinkLocalServiceUtil {
 		return getService().updateDrink(drink);
 	}
 
+	public static Drink updateDrink(
+			long drinkId, String name, String category, long price,
+			String imageUrl)
+		throws PortalException {
+
+		return getService().updateDrink(
+			drinkId, name, category, price, imageUrl);
+	}
+
 	public static DrinkLocalService getService() {
 		return _service;
 	}

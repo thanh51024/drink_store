@@ -7,4 +7,9 @@ dependencies {
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "7.4.3.88-ga88"
     compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "7.4.3.88-ga88"
     compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "3.1.0" 
+    compileOnly group: "com.liferay.portal", name: "release.portal.api"
+    
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	implementation 'org.apache.httpcomponents:httpmime:4.5.13'
+    implementation 'org.json:json:20210307'
 }

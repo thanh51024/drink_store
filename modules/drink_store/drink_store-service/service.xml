@@ -11,7 +11,7 @@
 		<column name="drinkName" type="String" />
 		<column name="category" type="String" />
 		<column name="price" type="double" />
-		<column name="imageUrl" type="String" />
+		<column name="imageUrl" type="String"/>
 
 		<!-- Order sắp xếp tăng dần khi findAll()-->
 		<order by="asc">

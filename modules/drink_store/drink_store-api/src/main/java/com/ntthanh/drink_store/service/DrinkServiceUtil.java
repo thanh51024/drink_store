@@ -60,6 +60,13 @@ public class DrinkServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static void updateDrink(
+		long drinkId, String drinkName, String category, long price,
+		String imageUrl) {
+
+		getService().updateDrink(drinkId, drinkName, category, price, imageUrl);
+	}
+
 	public static DrinkService getService() {
 		return _service;
 	}

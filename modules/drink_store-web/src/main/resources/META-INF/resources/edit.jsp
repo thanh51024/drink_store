@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <%-- Thêm import này --%>
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <style>
@@ -63,6 +65,9 @@
     }
 
     .aui-button {
+    	text-align: center;
+    	display:flex;
+    	justify-content: center;
         padding: 12px 30px;
         font-size: 1.1em;
         font-weight: 600;
@@ -75,11 +80,6 @@
         box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
     }
 
-    .aui-button:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
-    }
 
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
@@ -96,10 +96,11 @@
 <div class="form-container">
 	<h1>${empty editDrink ? "Tạo đồ uống mới" : "Chỉnh sửa đồ uống"}</h1>
 
-    <aui:form action="${saveDrinkURL}" method="post" name="fm">
+    <aui:form action="${saveDrinkURL}" method="post" name="fm" enctype="multipart/form-data">
         <aui:model-context bean="${drink}" model="<%= Drink.class %>" />
 		<c:if test="${not empty editDrink}">
-		    <aui:input name="drinkId" type="hidden" value="${editDrink.id}" />
+		    <aui:input type="hidden" name="drinkId" value="${editDrink.id}" />
+		    <aui:input type="hidden" name="existingImageUrl" value="${editDrink.imageUrl}" />
 		</c:if>
         <aui:input name="drinkName" value="${editDrink.drinkName}" label="Tên đồ uống" required="true" />
 
@@ -108,18 +109,36 @@
             <aui:option value="">-- Chọn loại --</aui:option>
             <aui:option value="Cà phê">Cà Phê</aui:option>
             <aui:option value="Trà">Trà</aui:option>
-            <aui:option value="Nước ep">Nước Ép</aui:option>
+            <aui:option value="Nước ép">Nước Ép</aui:option>
             <aui:option value="Sinh tố">Sinh Tố</aui:option>
-            <aui:option value="Nước ngọt">Soda</aui:option>
+            <aui:option value="Nước ngọt">Nước ngọt</aui:option>
             <aui:option value="Trà Sữa">Trà Sữa</aui:option>
         </aui:select>
 
         <aui:input name="price" label="Giá (VND)" type="number" step="1000" min="1000" value="${editDrink.price}" />
 
-        <aui:input name="imageUrl" label="Link ảnh (hoặc URL ảnh)"  value="${editDrink.imageUrl}" helpMessage="Hiện tại, vui lòng nhập URL ảnh. Chức năng tải ảnh từ máy sẽ được phát triển sau." />
-
+        <div class="form-field-row">
+            <span class="field-label-text">Ảnh:</span>
+            <aui:input name="newImageFile" label="" type="file" /> 
+        </div>
+        
+        <%-- Hiển thị ảnh hiện tại nếu đang ở chế độ chỉnh sửa và có ảnh --%>
+        <c:if test="${not empty editDrink.imageUrl}">
+            <div style="text-align: center; margin-top: 15px;">
+                <p>Ảnh hiện tại:</p>
+                <img src="${editDrink.imageUrl}" alt="Ảnh ${editDrink.drinkName}" class="current-drink-image" style="width:150px; height:200px; object-fit:cover;" />
+            </div>
+            
+            <aui:input type="hidden" name="oldImageUrl" value="${editDrink.imageUrl}" />
+            
+        </c:if>
+                                    	
         <aui:button-row>
             <aui:button cssClass="btn btn-primary" type="submit"  value="${empty editDrink ? 'Tạo' : 'Cập nhật'}"/>
+            <aui:button type="cancel" value="Hủy" onClick="history.back();"cssClass="btn-cancel" />
+            
         </aui:button-row>
+      
     </aui:form>
 </div>
+

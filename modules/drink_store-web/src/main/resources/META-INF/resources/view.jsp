@@ -154,7 +154,31 @@
         width: 100%;
         box-sizing: border-box;
     }
+.drink-card img {
+    width: 150px; 
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: 8px;
+    margin-bottom: 15px;
+    /* Nếu có border khi không có ảnh, thêm vào đây để nhất quán */
+    border: 1px solid #eee; /* Ví dụ: thêm border nhẹ */
+}
 
+/* Thêm CSS cho phần không có ảnh để chúng có cùng kích thước */
+.drink-card .no-image-placeholder {
+    width: 150px; 
+    height: 200px; 
+    display: flex; /* Dùng flexbox để căn giữa chữ */
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #ccc; /* Border cho placeholder */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    color: #888;
+    background-color: #f9f9f9;
+    font-size: 0.9em;
+    text-align: center;
+}
     @media (max-width: 768px) {
         .header-section {
             flex-direction: column;
@@ -173,6 +197,7 @@
             margin-bottom: 10px;
         }
     }
+    
 </style>
 
  <portlet:renderURL var="createEditRender">
@@ -243,7 +268,14 @@
 				    <portlet:param name="drinkId" value="${drink.id}" />
 				</portlet:actionURL>
                     <div class="drink-card">
-                        <img src="${drink.imageUrl}" alt="${drink.drinkName}" />
+                    	<c:if test="${not empty drink.imageUrl}">
+                            <img src="${drink.imageUrl}" alt="${drink.drinkName}"/>
+                        </c:if>
+                        <c:if test="${empty drink.imageUrl}">
+                            <div class="no-image-placeholder">
+					            Không có ảnh
+					        </div>
+                        </c:if>
                         <div class="drink-details">
                             <h2>${drink.drinkName}</h4>
                             <h4><strong>Loại:</strong> ${drink.category} - <strong>Giá:</strong> ${drink.price} VND</h4>

@@ -47,10 +47,6 @@ public class DrinkServiceWrapper
 	}
 
 	@Override
-	public void updateDrink(long drinkId, String drinkName, String category, long price, String imageUrl) {
-		_drinkService.updateDrink(drinkId, drinkName, category, price, imageUrl);
-	}
-	@Override
 	public java.util.List<com.ntthanh.drink_store.model.Drink> getDinks(
 		int start, int end) {
 
@@ -65,6 +61,15 @@ public class DrinkServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _drinkService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public void updateDrink(
+		long drinkId, String drinkName, String category, long price,
+		String imageUrl) {
+
+		_drinkService.updateDrink(
+			drinkId, drinkName, category, price, imageUrl);
 	}
 
 	@Override

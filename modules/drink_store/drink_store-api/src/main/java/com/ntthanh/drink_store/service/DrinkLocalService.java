@@ -269,4 +269,9 @@ public interface DrinkLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Drink updateDrink(Drink drink);
 
+	public Drink updateDrink(
+			long drinkId, String name, String category, long price,
+			String imageUrl)
+		throws PortalException;
+
 }
