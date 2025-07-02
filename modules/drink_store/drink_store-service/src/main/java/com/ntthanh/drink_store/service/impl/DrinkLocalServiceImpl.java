@@ -15,6 +15,7 @@
 package com.ntthanh.drink_store.service.impl;
 
 import com.liferay.portal.aop.AopService;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.ntthanh.drink_store.model.Drink;
 import com.ntthanh.drink_store.model.impl.DrinkImpl;
 import com.ntthanh.drink_store.service.DrinkLocalService;
@@ -51,5 +52,15 @@ public class DrinkLocalServiceImpl extends DrinkLocalServiceBaseImpl implements 
 		
 		drinkLocalService.addDrink(drink);
 		return drink;
+	}
+	public Drink updateDrink(long drinkId, String name, String category, long price, String imageUrl) throws PortalException {
+		Drink drink = drinkPersistence.findByPrimaryKey(drinkId);
+
+		drink.setDrinkName(name);
+		drink.setCategory(category);
+		drink.setPrice(price);
+		drink.setImageUrl(imageUrl);
+
+		return drinkPersistence.update(drink);
 	}
 }

@@ -6,4 +6,5 @@ dependencies {
 	compileOnly project (":modules:drink_store:drink_store-api")
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "7.4.3.88-ga88"
     compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "7.4.3.88-ga88"
+    compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "3.1.0" 
 }

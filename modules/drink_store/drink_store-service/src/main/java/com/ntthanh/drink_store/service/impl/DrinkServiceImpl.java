@@ -47,5 +47,21 @@ public class DrinkServiceImpl extends DrinkServiceBaseImpl {
 		return (long) drinkLocalService.getDrinksCount();
 		
 	}
+
+	@Override
+	public void updateDrink(long drinkId, String drinkName, String category, long price, String imageUrl) {
+		try {
+			Drink drink = drinkLocalService.getDrink(drinkId);
+
+			drink.setDrinkName(drinkName);
+			drink.setCategory(category);
+			drink.setPrice(price);
+			drink.setImageUrl(imageUrl);
+			drinkLocalService.updateDrink(drink);	
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 	
 }

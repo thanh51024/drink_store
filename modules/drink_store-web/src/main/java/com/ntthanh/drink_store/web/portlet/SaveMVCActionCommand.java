@@ -24,13 +24,19 @@ public class SaveMVCActionCommand extends BaseMVCActionCommand{
 
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
-		String drinkName=ParamUtil.get(actionRequest, "drinkName", "");
-		String category=ParamUtil.get(actionRequest, "category", "");
-		Long price=(long) ParamUtil.get(actionRequest, "price", 1000);
-		String imageUrl=ParamUtil.get(actionRequest, "imageUrl", "");
+		long drinkId = ParamUtil.getLong(actionRequest, "drinkId", 0);
+	    String drinkName = ParamUtil.getString(actionRequest, "drinkName", "");
+	    String category = ParamUtil.getString(actionRequest, "category", "");
+	    long price = ParamUtil.getLong(actionRequest, "price", 1000);
+	    String imageUrl = ParamUtil.getString(actionRequest, "imageUrl", "");
 
-		System.out.println("save()->");
-		drinkService.addDrink(drinkName, category, price, imageUrl);
+	    System.out.println("save() -> id: " + drinkId + ", name: " + drinkName);
+
+	    if (drinkId > 0) {
+	        drinkService.updateDrink(drinkId, drinkName, category, price, imageUrl);
+	    } else {
+	        drinkService.addDrink(drinkName, category, price, imageUrl);
+	    }
 	}
 	
 	private DrinkService drinkService;
