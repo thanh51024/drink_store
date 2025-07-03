@@ -86,7 +86,7 @@
 
     .drink-card {
         flex-shrink: 0; 
-        width: 280px; 
+        width: 300px; 
         height: auto; 
         display: flex;
         flex-direction: column;
@@ -250,7 +250,7 @@
 
     <aui:button-row>
         <aui:button value="Thêm nước mới" href="${createEditRender}" cssClass="btn btn-success"/>
-    	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn" />
+    	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn btn-success" />
         <aui:button value="Xem đơn đã đặt" onClick="location.href='${viewOrderURL}'" cssClass="btn btn-info" />
 		<aui:button value="Xem danh sách bàn" onClick="toggleTableList()" cssClass="btn btn-info" />
     </aui:button-row>
@@ -271,7 +271,7 @@
 		                    <portlet:param name="tableDrinkId" value="${table.tableDrinkId}" />
 		                </portlet:actionURL>
 		
-		                <aui:button value="Sửa" href="${editTableURL}" cssClass="btn btn-info" />
+		                <aui:button value="Sửa" href="${editTableURL}" cssClass="btn btn-success" />
 		                <aui:button value="Xóa" href="${deleteTableURL}" cssClass="btn" />
 		            </div>
 		        </div>
@@ -342,10 +342,8 @@
 	    var toggleButton = document.getElementById("toggleTableListButton");
 	    if (container.style.display === "none") {
 	        container.style.display = "block";
-	        toggleButton.value = "danh "; 
 	    } else {
 	        container.style.display = "none";
-	        toggleButton.value = "Xem danh";
 	    }
 	}
 </script>

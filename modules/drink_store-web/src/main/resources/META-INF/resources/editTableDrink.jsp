@@ -91,7 +91,7 @@
 <portlet:actionURL name="/saveTableDrink" var="saveTableDrinkURL" />
 
 <div class="form-container">
-	<h1>${empty editTableDrink.tableDrinkId || editTableDrink.tableDrinkId eq 0 ? "Tạo bàn mới" : "Chỉnh sửa bàn"}</h1>
+	<h1>Tạo mới/ chỉnh sửa bàn</h1>
 
     <aui:form action="${saveTableDrinkURL}" method="post" name="fm">
         <aui:model-context bean="${editTableDrink}" model="<%= TableDrink.class %>" />
@@ -119,7 +119,7 @@
         </aui:select>
 
         <aui:button-row>
-			<aui:button cssClass="btn btn-primary" type="submit" value="${empty editTableDrink.tableDrinkId || editTableDrink.tableDrinkId eq 0 ? 'Tạo' : 'Cập nhật'}" />
+			<aui:button cssClass="btn btn-primary" type="submit" value="Xác nhận" />
             <aui:button type="cancel" value="Hủy" onClick="history.back();" cssClass="btn-cancel" />
         </aui:button-row>
 
