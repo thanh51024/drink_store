@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import com.ntthanh.drink_store.exception.NoSuchTableDrinkException;
 import com.ntthanh.drink_store.model.TableDrink;
@@ -48,7 +48,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -92,6 +92,219 @@ public class TableDrinkPersistenceImpl
 	private FinderPath _finderPathWithPaginationFindAll;
 	private FinderPath _finderPathWithoutPaginationFindAll;
 	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathFetchByTableDrinkId;
+	private FinderPath _finderPathCountByTableDrinkId;
+
+	/**
+	 * Returns the table drink where tableDrinkId = &#63; or throws a <code>NoSuchTableDrinkException</code> if it could not be found.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the matching table drink
+	 * @throws NoSuchTableDrinkException if a matching table drink could not be found
+	 */
+	@Override
+	public TableDrink findByTableDrinkId(long tableDrinkId)
+		throws NoSuchTableDrinkException {
+
+		TableDrink tableDrink = fetchByTableDrinkId(tableDrinkId);
+
+		if (tableDrink == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("tableDrinkId=");
+			sb.append(tableDrinkId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchTableDrinkException(sb.toString());
+		}
+
+		return tableDrink;
+	}
+
+	/**
+	 * Returns the table drink where tableDrinkId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the matching table drink, or <code>null</code> if a matching table drink could not be found
+	 */
+	@Override
+	public TableDrink fetchByTableDrinkId(long tableDrinkId) {
+		return fetchByTableDrinkId(tableDrinkId, true);
+	}
+
+	/**
+	 * Returns the table drink where tableDrinkId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching table drink, or <code>null</code> if a matching table drink could not be found
+	 */
+	@Override
+	public TableDrink fetchByTableDrinkId(
+		long tableDrinkId, boolean useFinderCache) {
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {tableDrinkId};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByTableDrinkId, finderArgs, this);
+		}
+
+		if (result instanceof TableDrink) {
+			TableDrink tableDrink = (TableDrink)result;
+
+			if (tableDrinkId != tableDrink.getTableDrinkId()) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_TABLEDRINK_WHERE);
+
+			sb.append(_FINDER_COLUMN_TABLEDRINKID_TABLEDRINKID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(tableDrinkId);
+
+				List<TableDrink> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByTableDrinkId, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {tableDrinkId};
+							}
+
+							_log.warn(
+								"TableDrinkPersistenceImpl.fetchByTableDrinkId(long, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					TableDrink tableDrink = list.get(0);
+
+					result = tableDrink;
+
+					cacheResult(tableDrink);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (TableDrink)result;
+		}
+	}
+
+	/**
+	 * Removes the table drink where tableDrinkId = &#63; from the database.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the table drink that was removed
+	 */
+	@Override
+	public TableDrink removeByTableDrinkId(long tableDrinkId)
+		throws NoSuchTableDrinkException {
+
+		TableDrink tableDrink = findByTableDrinkId(tableDrinkId);
+
+		return remove(tableDrink);
+	}
+
+	/**
+	 * Returns the number of table drinks where tableDrinkId = &#63;.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the number of matching table drinks
+	 */
+	@Override
+	public int countByTableDrinkId(long tableDrinkId) {
+		FinderPath finderPath = _finderPathCountByTableDrinkId;
+
+		Object[] finderArgs = new Object[] {tableDrinkId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_TABLEDRINK_WHERE);
+
+			sb.append(_FINDER_COLUMN_TABLEDRINKID_TABLEDRINKID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(tableDrinkId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_TABLEDRINKID_TABLEDRINKID_2 =
+		"tableDrink.tableDrinkId = ?";
+
 	private FinderPath _finderPathWithPaginationFindByTableNumber;
 	private FinderPath _finderPathWithoutPaginationFindByTableNumber;
 	private FinderPath _finderPathCountByTableNumber;
@@ -375,7 +588,7 @@ public class TableDrinkPersistenceImpl
 	/**
 	 * Returns the table drinks before and after the current table drink in the ordered set where tableNumber = &#63;.
 	 *
-	 * @param id the primary key of the current table drink
+	 * @param tableDrinkId the primary key of the current table drink
 	 * @param tableNumber the table number
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next table drink
@@ -383,11 +596,11 @@ public class TableDrinkPersistenceImpl
 	 */
 	@Override
 	public TableDrink[] findByTableNumber_PrevAndNext(
-			long id, int tableNumber,
+			long tableDrinkId, int tableNumber,
 			OrderByComparator<TableDrink> orderByComparator)
 		throws NoSuchTableDrinkException {
 
-		TableDrink tableDrink = findByPrimaryKey(id);
+		TableDrink tableDrink = findByPrimaryKey(tableDrinkId);
 
 		Session session = null;
 
@@ -876,7 +1089,7 @@ public class TableDrinkPersistenceImpl
 	/**
 	 * Returns the table drinks before and after the current table drink in the ordered set where status = &#63;.
 	 *
-	 * @param id the primary key of the current table drink
+	 * @param tableDrinkId the primary key of the current table drink
 	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next table drink
@@ -884,13 +1097,13 @@ public class TableDrinkPersistenceImpl
 	 */
 	@Override
 	public TableDrink[] findByStatus_PrevAndNext(
-			long id, String status,
+			long tableDrinkId, String status,
 			OrderByComparator<TableDrink> orderByComparator)
 		throws NoSuchTableDrinkException {
 
 		status = Objects.toString(status, "");
 
-		TableDrink tableDrink = findByPrimaryKey(id);
+		TableDrink tableDrink = findByPrimaryKey(tableDrinkId);
 
 		Session session = null;
 
@@ -1393,7 +1606,7 @@ public class TableDrinkPersistenceImpl
 	/**
 	 * Returns the table drinks before and after the current table drink in the ordered set where seats = &#63;.
 	 *
-	 * @param id the primary key of the current table drink
+	 * @param tableDrinkId the primary key of the current table drink
 	 * @param seats the seats
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next table drink
@@ -1401,10 +1614,11 @@ public class TableDrinkPersistenceImpl
 	 */
 	@Override
 	public TableDrink[] findBySeats_PrevAndNext(
-			long id, int seats, OrderByComparator<TableDrink> orderByComparator)
+			long tableDrinkId, int seats,
+			OrderByComparator<TableDrink> orderByComparator)
 		throws NoSuchTableDrinkException {
 
-		TableDrink tableDrink = findByPrimaryKey(id);
+		TableDrink tableDrink = findByPrimaryKey(tableDrinkId);
 
 		Session session = null;
 
@@ -1607,12 +1821,6 @@ public class TableDrinkPersistenceImpl
 		"tableDrink.seats = ?";
 
 	public TableDrinkPersistenceImpl() {
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("id", "id_");
-
-		setDBColumnNames(dbColumnNames);
-
 		setModelClass(TableDrink.class);
 
 		setModelImplClass(TableDrinkImpl.class);
@@ -1630,6 +1838,10 @@ public class TableDrinkPersistenceImpl
 	public void cacheResult(TableDrink tableDrink) {
 		entityCache.putResult(
 			TableDrinkImpl.class, tableDrink.getPrimaryKey(), tableDrink);
+
+		finderCache.putResult(
+			_finderPathFetchByTableDrinkId,
+			new Object[] {tableDrink.getTableDrinkId()}, tableDrink);
 	}
 
 	private int _valueObjectFinderCacheListThreshold;
@@ -1699,18 +1911,29 @@ public class TableDrinkPersistenceImpl
 		}
 	}
 
+	protected void cacheUniqueFindersCache(
+		TableDrinkModelImpl tableDrinkModelImpl) {
+
+		Object[] args = new Object[] {tableDrinkModelImpl.getTableDrinkId()};
+
+		finderCache.putResult(
+			_finderPathCountByTableDrinkId, args, Long.valueOf(1));
+		finderCache.putResult(
+			_finderPathFetchByTableDrinkId, args, tableDrinkModelImpl);
+	}
+
 	/**
 	 * Creates a new table drink with the primary key. Does not add the table drink to the database.
 	 *
-	 * @param id the primary key for the new table drink
+	 * @param tableDrinkId the primary key for the new table drink
 	 * @return the new table drink
 	 */
 	@Override
-	public TableDrink create(long id) {
+	public TableDrink create(long tableDrinkId) {
 		TableDrink tableDrink = new TableDrinkImpl();
 
 		tableDrink.setNew(true);
-		tableDrink.setPrimaryKey(id);
+		tableDrink.setPrimaryKey(tableDrinkId);
 
 		return tableDrink;
 	}
@@ -1718,13 +1941,15 @@ public class TableDrinkPersistenceImpl
 	/**
 	 * Removes the table drink with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink that was removed
 	 * @throws NoSuchTableDrinkException if a table drink with the primary key could not be found
 	 */
 	@Override
-	public TableDrink remove(long id) throws NoSuchTableDrinkException {
-		return remove((Serializable)id);
+	public TableDrink remove(long tableDrinkId)
+		throws NoSuchTableDrinkException {
+
+		return remove((Serializable)tableDrinkId);
 	}
 
 	/**
@@ -1843,6 +2068,8 @@ public class TableDrinkPersistenceImpl
 		entityCache.putResult(
 			TableDrinkImpl.class, tableDrinkModelImpl, false, true);
 
+		cacheUniqueFindersCache(tableDrinkModelImpl);
+
 		if (isNew) {
 			tableDrink.setNew(false);
 		}
@@ -1880,26 +2107,26 @@ public class TableDrinkPersistenceImpl
 	/**
 	 * Returns the table drink with the primary key or throws a <code>NoSuchTableDrinkException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink
 	 * @throws NoSuchTableDrinkException if a table drink with the primary key could not be found
 	 */
 	@Override
-	public TableDrink findByPrimaryKey(long id)
+	public TableDrink findByPrimaryKey(long tableDrinkId)
 		throws NoSuchTableDrinkException {
 
-		return findByPrimaryKey((Serializable)id);
+		return findByPrimaryKey((Serializable)tableDrinkId);
 	}
 
 	/**
 	 * Returns the table drink with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink, or <code>null</code> if a table drink with the primary key could not be found
 	 */
 	@Override
-	public TableDrink fetchByPrimaryKey(long id) {
-		return fetchByPrimaryKey((Serializable)id);
+	public TableDrink fetchByPrimaryKey(long tableDrinkId) {
+		return fetchByPrimaryKey((Serializable)tableDrinkId);
 	}
 
 	/**
@@ -2082,18 +2309,13 @@ public class TableDrinkPersistenceImpl
 	}
 
 	@Override
-	public Set<String> getBadColumnNames() {
-		return _badColumnNames;
-	}
-
-	@Override
 	protected EntityCache getEntityCache() {
 		return entityCache;
 	}
 
 	@Override
 	protected String getPKDBName() {
-		return "id_";
+		return "tableDrinkId";
 	}
 
 	@Override
@@ -2125,6 +2347,16 @@ public class TableDrinkPersistenceImpl
 		_finderPathCountAll = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0], new String[0], false);
+
+		_finderPathFetchByTableDrinkId = new FinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByTableDrinkId",
+			new String[] {Long.class.getName()}, new String[] {"tableDrinkId"},
+			true);
+
+		_finderPathCountByTableDrinkId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTableDrinkId",
+			new String[] {Long.class.getName()}, new String[] {"tableDrinkId"},
+			false);
 
 		_finderPathWithPaginationFindByTableNumber = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTableNumber",
@@ -2259,9 +2491,6 @@ public class TableDrinkPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		TableDrinkPersistenceImpl.class);
-
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"id"});
 
 	@Override
 	protected FinderCache getFinderCache() {

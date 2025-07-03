@@ -115,7 +115,7 @@
             <aui:option value="Trà Sữa">Trà Sữa</aui:option>
         </aui:select>
 
-        <aui:input name="price" label="Giá (VND)" type="number" step="1000" min="1000" value="${editDrink.price}" />
+        <aui:input name="price" label="Giá (VND)"  required="true" type="number" step="1000" min="1000" value="${editDrink.price}" />
 
         <div class="form-field-row">
             <span class="field-label-text">Ảnh:</span>
@@ -134,7 +134,7 @@
         </c:if>
                                     	
         <aui:button-row>
-            <aui:button cssClass="btn btn-primary" type="submit"  value="${empty editDrink ? 'Tạo' : 'Cập nhật'}"/>
+            <aui:button cssClass="btn btn-primary" type="submit"  value="${empty editDrink ? 'Tạo':'Cập nhật'}"/>
             <aui:button type="cancel" value="Hủy" onClick="history.back();"cssClass="btn-cancel" />
             
         </aui:button-row>

@@ -19,13 +19,13 @@
 	</model>
 	<model name="com.ntthanh.drink_store.model.OrderDrink">
 		<field name="id" type="long" />
-		<field name="tableId" type="long" />
+		<field name="tableDrinkId" type="long" />
 		<field name="totalAmount" type="double" />
 		<field name="orderDate" type="Date" />
 		<field name="paid" type="boolean" />
 	</model>
 	<model name="com.ntthanh.drink_store.model.TableDrink">
-		<field name="id" type="long" />
+		<field name="tableDrinkId" type="long" />
 		<field name="tableNumber" type="int" />
 		<field name="seats" type="int" />
 		<field name="status" type="String" />

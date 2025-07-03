@@ -54,18 +54,18 @@ public interface TableDrinkModel extends BaseModel<TableDrink> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the ID of this table drink.
+	 * Returns the table drink ID of this table drink.
 	 *
-	 * @return the ID of this table drink
+	 * @return the table drink ID of this table drink
 	 */
-	public long getId();
+	public long getTableDrinkId();
 
 	/**
-	 * Sets the ID of this table drink.
+	 * Sets the table drink ID of this table drink.
 	 *
-	 * @param id the ID of this table drink
+	 * @param tableDrinkId the table drink ID of this table drink
 	 */
-	public void setId(long id);
+	public void setTableDrinkId(long tableDrinkId);
 
 	/**
 	 * Returns the table number of this table drink.

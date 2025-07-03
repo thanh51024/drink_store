@@ -36,6 +36,14 @@ public class TableDrinkLocalServiceWrapper
 		_tableDrinkLocalService = tableDrinkLocalService;
 	}
 
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink addTableDrink(
+		int tableNumber, int seats, String status) {
+
+		return _tableDrinkLocalService.addTableDrink(
+			tableNumber, seats, status);
+	}
+
 	/**
 	 * Adds the table drink to the database. Also notifies the appropriate model listeners.
 	 *
@@ -67,12 +75,14 @@ public class TableDrinkLocalServiceWrapper
 	/**
 	 * Creates a new table drink with the primary key. Does not add the table drink to the database.
 	 *
-	 * @param id the primary key for the new table drink
+	 * @param tableDrinkId the primary key for the new table drink
 	 * @return the new table drink
 	 */
 	@Override
-	public com.ntthanh.drink_store.model.TableDrink createTableDrink(long id) {
-		return _tableDrinkLocalService.createTableDrink(id);
+	public com.ntthanh.drink_store.model.TableDrink createTableDrink(
+		long tableDrinkId) {
+
+		return _tableDrinkLocalService.createTableDrink(tableDrinkId);
 	}
 
 	/**
@@ -93,15 +103,16 @@ public class TableDrinkLocalServiceWrapper
 	 * <strong>Important:</strong> Inspect TableDrinkLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink that was removed
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
 	@Override
-	public com.ntthanh.drink_store.model.TableDrink deleteTableDrink(long id)
+	public com.ntthanh.drink_store.model.TableDrink deleteTableDrink(
+			long tableDrinkId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _tableDrinkLocalService.deleteTableDrink(id);
+		return _tableDrinkLocalService.deleteTableDrink(tableDrinkId);
 	}
 
 	/**
@@ -224,8 +235,32 @@ public class TableDrinkLocalServiceWrapper
 	}
 
 	@Override
-	public com.ntthanh.drink_store.model.TableDrink fetchTableDrink(long id) {
-		return _tableDrinkLocalService.fetchTableDrink(id);
+	public com.ntthanh.drink_store.model.TableDrink fetchTableDrink(
+		long tableDrinkId) {
+
+		return _tableDrinkLocalService.fetchTableDrink(tableDrinkId);
+	}
+
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink
+		fetchTableDrinkByTableDrinkId(long tableDrinkId) {
+
+		return _tableDrinkLocalService.fetchTableDrinkByTableDrinkId(
+			tableDrinkId);
+	}
+
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink fetchTableDrinkId(
+		long tableNumberId) {
+
+		return _tableDrinkLocalService.fetchTableDrinkId(tableNumberId);
+	}
+
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink findByTableDrinkId(
+		long tableNumberId) {
+
+		return _tableDrinkLocalService.findByTableDrinkId(tableNumberId);
 	}
 
 	@Override
@@ -266,15 +301,16 @@ public class TableDrinkLocalServiceWrapper
 	/**
 	 * Returns the table drink with the primary key.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
 	@Override
-	public com.ntthanh.drink_store.model.TableDrink getTableDrink(long id)
+	public com.ntthanh.drink_store.model.TableDrink getTableDrink(
+			long tableDrinkId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _tableDrinkLocalService.getTableDrink(id);
+		return _tableDrinkLocalService.getTableDrink(tableDrinkId);
 	}
 
 	/**
@@ -303,6 +339,15 @@ public class TableDrinkLocalServiceWrapper
 	@Override
 	public int getTableDrinksCount() {
 		return _tableDrinkLocalService.getTableDrinksCount();
+	}
+
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink updateTableDrink(
+			long id, int tableNumber, int seats, String status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _tableDrinkLocalService.updateTableDrink(
+			id, tableNumber, seats, status);
 	}
 
 	/**

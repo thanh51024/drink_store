@@ -102,13 +102,13 @@ public abstract class TableDrinkLocalServiceBaseImpl
 	/**
 	 * Creates a new table drink with the primary key. Does not add the table drink to the database.
 	 *
-	 * @param id the primary key for the new table drink
+	 * @param tableDrinkId the primary key for the new table drink
 	 * @return the new table drink
 	 */
 	@Override
 	@Transactional(enabled = false)
-	public TableDrink createTableDrink(long id) {
-		return tableDrinkPersistence.create(id);
+	public TableDrink createTableDrink(long tableDrinkId) {
+		return tableDrinkPersistence.create(tableDrinkId);
 	}
 
 	/**
@@ -118,14 +118,16 @@ public abstract class TableDrinkLocalServiceBaseImpl
 	 * <strong>Important:</strong> Inspect TableDrinkLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink that was removed
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public TableDrink deleteTableDrink(long id) throws PortalException {
-		return tableDrinkPersistence.remove(id);
+	public TableDrink deleteTableDrink(long tableDrinkId)
+		throws PortalException {
+
+		return tableDrinkPersistence.remove(tableDrinkId);
 	}
 
 	/**
@@ -244,20 +246,20 @@ public abstract class TableDrinkLocalServiceBaseImpl
 	}
 
 	@Override
-	public TableDrink fetchTableDrink(long id) {
-		return tableDrinkPersistence.fetchByPrimaryKey(id);
+	public TableDrink fetchTableDrink(long tableDrinkId) {
+		return tableDrinkPersistence.fetchByPrimaryKey(tableDrinkId);
 	}
 
 	/**
 	 * Returns the table drink with the primary key.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
 	@Override
-	public TableDrink getTableDrink(long id) throws PortalException {
-		return tableDrinkPersistence.findByPrimaryKey(id);
+	public TableDrink getTableDrink(long tableDrinkId) throws PortalException {
+		return tableDrinkPersistence.findByPrimaryKey(tableDrinkId);
 	}
 
 	@Override
@@ -269,7 +271,7 @@ public abstract class TableDrinkLocalServiceBaseImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(TableDrink.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("tableDrinkId");
 
 		return actionableDynamicQuery;
 	}
@@ -286,7 +288,8 @@ public abstract class TableDrinkLocalServiceBaseImpl
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(TableDrink.class);
 
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("id");
+		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
+			"tableDrinkId");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -298,7 +301,7 @@ public abstract class TableDrinkLocalServiceBaseImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(TableDrink.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("id");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("tableDrinkId");
 	}
 
 	/**

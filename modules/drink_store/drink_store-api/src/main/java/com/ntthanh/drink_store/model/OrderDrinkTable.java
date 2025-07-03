@@ -34,8 +34,8 @@ public class OrderDrinkTable extends BaseTable<OrderDrinkTable> {
 
 	public final Column<OrderDrinkTable, Long> id = createColumn(
 		"id_", Long.class, Types.BIGINT, Column.FLAG_PRIMARY);
-	public final Column<OrderDrinkTable, Long> tableId = createColumn(
-		"tableId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<OrderDrinkTable, Long> tableDrinkId = createColumn(
+		"tableDrinkId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<OrderDrinkTable, Double> totalAmount = createColumn(
 		"totalAmount", Double.class, Types.DOUBLE, Column.FLAG_DEFAULT);
 	public final Column<OrderDrinkTable, Date> orderDate = createColumn(

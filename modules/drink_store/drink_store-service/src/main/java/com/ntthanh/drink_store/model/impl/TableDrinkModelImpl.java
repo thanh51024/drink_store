@@ -69,7 +69,7 @@ public class TableDrinkModelImpl
 	public static final String TABLE_NAME = "DRINK_STORE_TableDrink";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"tableNumber", Types.INTEGER},
+		{"tableDrinkId", Types.BIGINT}, {"tableNumber", Types.INTEGER},
 		{"seats", Types.INTEGER}, {"status", Types.VARCHAR}
 	};
 
@@ -77,14 +77,14 @@ public class TableDrinkModelImpl
 		new HashMap<String, Integer>();
 
 	static {
-		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("tableDrinkId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("tableNumber", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("seats", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("status", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table DRINK_STORE_TableDrink (id_ LONG not null primary key,tableNumber INTEGER,seats INTEGER,status VARCHAR(75) null)";
+		"create table DRINK_STORE_TableDrink (tableDrinkId LONG not null primary key,tableNumber INTEGER,seats INTEGER,status VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table DRINK_STORE_TableDrink";
@@ -117,7 +117,13 @@ public class TableDrinkModelImpl
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long TABLENUMBER_COLUMN_BITMASK = 4L;
+	public static final long TABLEDRINKID_COLUMN_BITMASK = 4L;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
+	public static final long TABLENUMBER_COLUMN_BITMASK = 8L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -138,17 +144,17 @@ public class TableDrinkModelImpl
 
 	@Override
 	public long getPrimaryKey() {
-		return _id;
+		return _tableDrinkId;
 	}
 
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		setId(primaryKey);
+		setTableDrinkId(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _id;
+		return _tableDrinkId;
 	}
 
 	@Override
@@ -228,9 +234,11 @@ public class TableDrinkModelImpl
 		Map<String, BiConsumer<TableDrink, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<TableDrink, ?>>();
 
-		attributeGetterFunctions.put("id", TableDrink::getId);
+		attributeGetterFunctions.put(
+			"tableDrinkId", TableDrink::getTableDrinkId);
 		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<TableDrink, Long>)TableDrink::setId);
+			"tableDrinkId",
+			(BiConsumer<TableDrink, Long>)TableDrink::setTableDrinkId);
 		attributeGetterFunctions.put("tableNumber", TableDrink::getTableNumber);
 		attributeSetterBiConsumers.put(
 			"tableNumber",
@@ -250,17 +258,27 @@ public class TableDrinkModelImpl
 
 	@JSON
 	@Override
-	public long getId() {
-		return _id;
+	public long getTableDrinkId() {
+		return _tableDrinkId;
 	}
 
 	@Override
-	public void setId(long id) {
+	public void setTableDrinkId(long tableDrinkId) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
-		_id = id;
+		_tableDrinkId = tableDrinkId;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public long getOriginalTableDrinkId() {
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("tableDrinkId"));
 	}
 
 	@JSON
@@ -398,7 +416,7 @@ public class TableDrinkModelImpl
 	public Object clone() {
 		TableDrinkImpl tableDrinkImpl = new TableDrinkImpl();
 
-		tableDrinkImpl.setId(getId());
+		tableDrinkImpl.setTableDrinkId(getTableDrinkId());
 		tableDrinkImpl.setTableNumber(getTableNumber());
 		tableDrinkImpl.setSeats(getSeats());
 		tableDrinkImpl.setStatus(getStatus());
@@ -412,7 +430,8 @@ public class TableDrinkModelImpl
 	public TableDrink cloneWithOriginalValues() {
 		TableDrinkImpl tableDrinkImpl = new TableDrinkImpl();
 
-		tableDrinkImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		tableDrinkImpl.setTableDrinkId(
+			this.<Long>getColumnOriginalValue("tableDrinkId"));
 		tableDrinkImpl.setTableNumber(
 			this.<Integer>getColumnOriginalValue("tableNumber"));
 		tableDrinkImpl.setSeats(this.<Integer>getColumnOriginalValue("seats"));
@@ -498,7 +517,7 @@ public class TableDrinkModelImpl
 	public CacheModel<TableDrink> toCacheModel() {
 		TableDrinkCacheModel tableDrinkCacheModel = new TableDrinkCacheModel();
 
-		tableDrinkCacheModel.id = getId();
+		tableDrinkCacheModel.tableDrinkId = getTableDrinkId();
 
 		tableDrinkCacheModel.tableNumber = getTableNumber();
 
@@ -573,14 +592,12 @@ public class TableDrinkModelImpl
 
 	}
 
-	private long _id;
+	private long _tableDrinkId;
 	private int _tableNumber;
 	private int _seats;
 	private String _status;
 
 	public <T> T getColumnValue(String columnName) {
-		columnName = _attributeNames.getOrDefault(columnName, columnName);
-
 		Function<TableDrink, Object> function = _attributeGetterFunctions.get(
 			columnName);
 
@@ -607,20 +624,10 @@ public class TableDrinkModelImpl
 	private void _setColumnOriginalValues() {
 		_columnOriginalValues = new HashMap<String, Object>();
 
-		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("tableDrinkId", _tableDrinkId);
 		_columnOriginalValues.put("tableNumber", _tableNumber);
 		_columnOriginalValues.put("seats", _seats);
 		_columnOriginalValues.put("status", _status);
-	}
-
-	private static final Map<String, String> _attributeNames;
-
-	static {
-		Map<String, String> attributeNames = new HashMap<>();
-
-		attributeNames.put("id_", "id");
-
-		_attributeNames = Collections.unmodifiableMap(attributeNames);
 	}
 
 	private transient Map<String, Object> _columnOriginalValues;
@@ -634,7 +641,7 @@ public class TableDrinkModelImpl
 	static {
 		Map<String, Long> columnBitmasks = new HashMap<>();
 
-		columnBitmasks.put("id_", 1L);
+		columnBitmasks.put("tableDrinkId", 1L);
 
 		columnBitmasks.put("tableNumber", 2L);
 

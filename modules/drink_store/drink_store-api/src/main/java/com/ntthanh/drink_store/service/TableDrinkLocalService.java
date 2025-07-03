@@ -62,6 +62,7 @@ public interface TableDrinkLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.ntthanh.drink_store.service.impl.TableDrinkLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the table drink local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link TableDrinkLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	public TableDrink addTableDrink(int tableNumber, int seats, String status);
 
 	/**
 	 * Adds the table drink to the database. Also notifies the appropriate model listeners.
@@ -85,11 +86,11 @@ public interface TableDrinkLocalService
 	/**
 	 * Creates a new table drink with the primary key. Does not add the table drink to the database.
 	 *
-	 * @param id the primary key for the new table drink
+	 * @param tableDrinkId the primary key for the new table drink
 	 * @return the new table drink
 	 */
 	@Transactional(enabled = false)
-	public TableDrink createTableDrink(long id);
+	public TableDrink createTableDrink(long tableDrinkId);
 
 	/**
 	 * @throws PortalException
@@ -105,12 +106,13 @@ public interface TableDrinkLocalService
 	 * <strong>Important:</strong> Inspect TableDrinkLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink that was removed
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public TableDrink deleteTableDrink(long id) throws PortalException;
+	public TableDrink deleteTableDrink(long tableDrinkId)
+		throws PortalException;
 
 	/**
 	 * Deletes the table drink from the database. Also notifies the appropriate model listeners.
@@ -198,7 +200,15 @@ public interface TableDrinkLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public TableDrink fetchTableDrink(long id);
+	public TableDrink fetchTableDrink(long tableDrinkId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public TableDrink fetchTableDrinkByTableDrinkId(long tableDrinkId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public TableDrink fetchTableDrinkId(long tableNumberId);
+
+	public TableDrink findByTableDrinkId(long tableNumberId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -224,12 +234,12 @@ public interface TableDrinkLocalService
 	/**
 	 * Returns the table drink with the primary key.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public TableDrink getTableDrink(long id) throws PortalException;
+	public TableDrink getTableDrink(long tableDrinkId) throws PortalException;
 
 	/**
 	 * Returns a range of all the table drinks.
@@ -252,6 +262,10 @@ public interface TableDrinkLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getTableDrinksCount();
+
+	public TableDrink updateTableDrink(
+			long id, int tableNumber, int seats, String status)
+		throws PortalException;
 
 	/**
 	 * Updates the table drink in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

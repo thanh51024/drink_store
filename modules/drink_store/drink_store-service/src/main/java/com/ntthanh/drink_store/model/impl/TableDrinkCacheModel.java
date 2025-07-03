@@ -47,7 +47,7 @@ public class TableDrinkCacheModel
 		TableDrinkCacheModel tableDrinkCacheModel =
 			(TableDrinkCacheModel)object;
 
-		if (id == tableDrinkCacheModel.id) {
+		if (tableDrinkId == tableDrinkCacheModel.tableDrinkId) {
 			return true;
 		}
 
@@ -56,15 +56,15 @@ public class TableDrinkCacheModel
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, id);
+		return HashUtil.hash(0, tableDrinkId);
 	}
 
 	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(9);
 
-		sb.append("{id=");
-		sb.append(id);
+		sb.append("{tableDrinkId=");
+		sb.append(tableDrinkId);
 		sb.append(", tableNumber=");
 		sb.append(tableNumber);
 		sb.append(", seats=");
@@ -80,7 +80,7 @@ public class TableDrinkCacheModel
 	public TableDrink toEntityModel() {
 		TableDrinkImpl tableDrinkImpl = new TableDrinkImpl();
 
-		tableDrinkImpl.setId(id);
+		tableDrinkImpl.setTableDrinkId(tableDrinkId);
 		tableDrinkImpl.setTableNumber(tableNumber);
 		tableDrinkImpl.setSeats(seats);
 
@@ -98,7 +98,7 @@ public class TableDrinkCacheModel
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		id = objectInput.readLong();
+		tableDrinkId = objectInput.readLong();
 
 		tableNumber = objectInput.readInt();
 
@@ -108,7 +108,7 @@ public class TableDrinkCacheModel
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		objectOutput.writeLong(id);
+		objectOutput.writeLong(tableDrinkId);
 
 		objectOutput.writeInt(tableNumber);
 
@@ -122,7 +122,7 @@ public class TableDrinkCacheModel
 		}
 	}
 
-	public long id;
+	public long tableDrinkId;
 	public int tableNumber;
 	public int seats;
 	public String status;

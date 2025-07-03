@@ -30,8 +30,8 @@ public class TableDrinkTable extends BaseTable<TableDrinkTable> {
 
 	public static final TableDrinkTable INSTANCE = new TableDrinkTable();
 
-	public final Column<TableDrinkTable, Long> id = createColumn(
-		"id_", Long.class, Types.BIGINT, Column.FLAG_PRIMARY);
+	public final Column<TableDrinkTable, Long> tableDrinkId = createColumn(
+		"tableDrinkId", Long.class, Types.BIGINT, Column.FLAG_PRIMARY);
 	public final Column<TableDrinkTable, Integer> tableNumber = createColumn(
 		"tableNumber", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
 	public final Column<TableDrinkTable, Integer> seats = createColumn(

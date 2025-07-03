@@ -18,14 +18,14 @@ create table DRINK_STORE_OrderDetail (
 
 create table DRINK_STORE_OrderDrink (
 	id_ LONG not null primary key,
-	tableId LONG,
+	tableDrinkId LONG,
 	totalAmount DOUBLE,
 	orderDate DATE null,
 	paid BOOLEAN
 );
 
 create table DRINK_STORE_TableDrink (
-	id_ LONG not null primary key,
+	tableDrinkId LONG not null primary key,
 	tableNumber INTEGER,
 	seats INTEGER,
 	status VARCHAR(75) null

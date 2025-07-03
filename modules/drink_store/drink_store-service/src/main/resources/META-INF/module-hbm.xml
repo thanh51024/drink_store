@@ -30,13 +30,13 @@
 		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" column="id_" name="id" type="long">
 			<generator class="assigned" />
 		</id>
-		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="tableId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="tableDrinkId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="totalAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="orderDate" type="org.hibernate.type.TimestampType" />
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="paid" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="com.ntthanh.drink_store.model.impl.TableDrinkImpl" table="DRINK_STORE_TableDrink">
-		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" column="id_" name="id" type="long">
+		<id access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="tableDrinkId" type="long">
 			<generator class="assigned" />
 		</id>
 		<property access="com.liferay.portal.dao.orm.hibernate.LiferayPropertyAccessor" name="tableNumber" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />

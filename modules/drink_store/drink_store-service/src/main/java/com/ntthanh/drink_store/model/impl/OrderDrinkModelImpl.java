@@ -69,7 +69,7 @@ public class OrderDrinkModelImpl
 	public static final String TABLE_NAME = "DRINK_STORE_OrderDrink";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"tableId", Types.BIGINT},
+		{"id_", Types.BIGINT}, {"tableDrinkId", Types.BIGINT},
 		{"totalAmount", Types.DOUBLE}, {"orderDate", Types.TIMESTAMP},
 		{"paid", Types.BOOLEAN}
 	};
@@ -79,14 +79,14 @@ public class OrderDrinkModelImpl
 
 	static {
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("tableId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("tableDrinkId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("totalAmount", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("orderDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("paid", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table DRINK_STORE_OrderDrink (id_ LONG not null primary key,tableId LONG,totalAmount DOUBLE,orderDate DATE null,paid BOOLEAN)";
+		"create table DRINK_STORE_OrderDrink (id_ LONG not null primary key,tableDrinkId LONG,totalAmount DOUBLE,orderDate DATE null,paid BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table DRINK_STORE_OrderDrink";
@@ -221,9 +221,11 @@ public class OrderDrinkModelImpl
 		attributeGetterFunctions.put("id", OrderDrink::getId);
 		attributeSetterBiConsumers.put(
 			"id", (BiConsumer<OrderDrink, Long>)OrderDrink::setId);
-		attributeGetterFunctions.put("tableId", OrderDrink::getTableId);
+		attributeGetterFunctions.put(
+			"tableDrinkId", OrderDrink::getTableDrinkId);
 		attributeSetterBiConsumers.put(
-			"tableId", (BiConsumer<OrderDrink, Long>)OrderDrink::setTableId);
+			"tableDrinkId",
+			(BiConsumer<OrderDrink, Long>)OrderDrink::setTableDrinkId);
 		attributeGetterFunctions.put("totalAmount", OrderDrink::getTotalAmount);
 		attributeSetterBiConsumers.put(
 			"totalAmount",
@@ -259,17 +261,17 @@ public class OrderDrinkModelImpl
 
 	@JSON
 	@Override
-	public long getTableId() {
-		return _tableId;
+	public long getTableDrinkId() {
+		return _tableDrinkId;
 	}
 
 	@Override
-	public void setTableId(long tableId) {
+	public void setTableDrinkId(long tableDrinkId) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
-		_tableId = tableId;
+		_tableDrinkId = tableDrinkId;
 	}
 
 	@JSON
@@ -389,7 +391,7 @@ public class OrderDrinkModelImpl
 		OrderDrinkImpl orderDrinkImpl = new OrderDrinkImpl();
 
 		orderDrinkImpl.setId(getId());
-		orderDrinkImpl.setTableId(getTableId());
+		orderDrinkImpl.setTableDrinkId(getTableDrinkId());
 		orderDrinkImpl.setTotalAmount(getTotalAmount());
 		orderDrinkImpl.setOrderDate(getOrderDate());
 		orderDrinkImpl.setPaid(isPaid());
@@ -404,7 +406,8 @@ public class OrderDrinkModelImpl
 		OrderDrinkImpl orderDrinkImpl = new OrderDrinkImpl();
 
 		orderDrinkImpl.setId(this.<Long>getColumnOriginalValue("id_"));
-		orderDrinkImpl.setTableId(this.<Long>getColumnOriginalValue("tableId"));
+		orderDrinkImpl.setTableDrinkId(
+			this.<Long>getColumnOriginalValue("tableDrinkId"));
 		orderDrinkImpl.setTotalAmount(
 			this.<Double>getColumnOriginalValue("totalAmount"));
 		orderDrinkImpl.setOrderDate(
@@ -485,7 +488,7 @@ public class OrderDrinkModelImpl
 
 		orderDrinkCacheModel.id = getId();
 
-		orderDrinkCacheModel.tableId = getTableId();
+		orderDrinkCacheModel.tableDrinkId = getTableDrinkId();
 
 		orderDrinkCacheModel.totalAmount = getTotalAmount();
 
@@ -562,7 +565,7 @@ public class OrderDrinkModelImpl
 	}
 
 	private long _id;
-	private long _tableId;
+	private long _tableDrinkId;
 	private double _totalAmount;
 	private Date _orderDate;
 	private boolean _paid;
@@ -597,7 +600,7 @@ public class OrderDrinkModelImpl
 		_columnOriginalValues = new HashMap<String, Object>();
 
 		_columnOriginalValues.put("id_", _id);
-		_columnOriginalValues.put("tableId", _tableId);
+		_columnOriginalValues.put("tableDrinkId", _tableDrinkId);
 		_columnOriginalValues.put("totalAmount", _totalAmount);
 		_columnOriginalValues.put("orderDate", _orderDate);
 		_columnOriginalValues.put("paid", _paid);
@@ -626,7 +629,7 @@ public class OrderDrinkModelImpl
 
 		columnBitmasks.put("id_", 1L);
 
-		columnBitmasks.put("tableId", 2L);
+		columnBitmasks.put("tableDrinkId", 2L);
 
 		columnBitmasks.put("totalAmount", 4L);
 

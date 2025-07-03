@@ -15,8 +15,12 @@
 package com.ntthanh.drink_store.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
+import com.liferay.portal.kernel.exception.PortalException;
+import com.ntthanh.drink_store.model.Drink;
+import com.ntthanh.drink_store.model.TableDrink;
 import com.ntthanh.drink_store.service.base.TableDrinkServiceBaseImpl;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -31,4 +35,53 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class TableDrinkServiceImpl extends TableDrinkServiceBaseImpl {
+	
+	public TableDrink addTableDrink(int tableNumber, int seats, String status) {
+		long id = counterLocalService.increment(TableDrink.class.getName());
+		 System.out.println("create table");
+
+	    TableDrink tableDrink = tableDrinkPersistence.create(id);
+	    tableDrink.setTableNumber(tableNumber);
+	    tableDrink.setSeats(seats);
+	    tableDrink.setStatus(status);
+
+	    return tableDrinkPersistence.update(tableDrink);
+	}
+	
+	public List<TableDrink> getTableDrinks(int start, int end) {
+		return tableDrinkLocalService.getTableDrinks(start, end);
+		
+	}
+	
+	public int getTableDrinkCount() {
+		return (int) tableDrinkLocalService.getTableDrinksCount();
+		
+	}
+	
+	public TableDrink fetchTableDrinkByTableDrinkId(long tableNumberId) {
+	    return tableDrinkLocalService.findByTableDrinkId(tableNumberId);
+	}
+	
+	@Override
+	public void updateTableDrink(long tableNumberId, int tableNumber, int seats, String status){
+		 TableDrink tableDrink = tableDrinkLocalService.fetchTableDrink(tableNumberId);
+		 tableDrink.setTableNumber(tableNumber);
+		 tableDrink.setSeats(seats);
+		 tableDrink.setStatus(status);
+
+		 tableDrinkPersistence.update(tableDrink);
+	}
+
+	@Override
+	public int getTableDinkCount() {
+		return tableDrinkLocalService.getTableDrinksCount();
+
+	}
+
+	@Override
+	public TableDrink fetchTableDrink(long tableDrinkId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

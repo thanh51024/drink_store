@@ -43,7 +43,7 @@ public class OrderDrinkWrapper
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("id", getId());
-		attributes.put("tableId", getTableId());
+		attributes.put("tableDrinkId", getTableDrinkId());
 		attributes.put("totalAmount", getTotalAmount());
 		attributes.put("orderDate", getOrderDate());
 		attributes.put("paid", isPaid());
@@ -59,10 +59,10 @@ public class OrderDrinkWrapper
 			setId(id);
 		}
 
-		Long tableId = (Long)attributes.get("tableId");
+		Long tableDrinkId = (Long)attributes.get("tableDrinkId");
 
-		if (tableId != null) {
-			setTableId(tableId);
+		if (tableDrinkId != null) {
+			setTableDrinkId(tableDrinkId);
 		}
 
 		Double totalAmount = (Double)attributes.get("totalAmount");
@@ -130,13 +130,13 @@ public class OrderDrinkWrapper
 	}
 
 	/**
-	 * Returns the table ID of this order drink.
+	 * Returns the table drink ID of this order drink.
 	 *
-	 * @return the table ID of this order drink
+	 * @return the table drink ID of this order drink
 	 */
 	@Override
-	public long getTableId() {
-		return model.getTableId();
+	public long getTableDrinkId() {
+		return model.getTableDrinkId();
 	}
 
 	/**
@@ -205,13 +205,13 @@ public class OrderDrinkWrapper
 	}
 
 	/**
-	 * Sets the table ID of this order drink.
+	 * Sets the table drink ID of this order drink.
 	 *
-	 * @param tableId the table ID of this order drink
+	 * @param tableDrinkId the table drink ID of this order drink
 	 */
 	@Override
-	public void setTableId(long tableId) {
-		model.setTableId(tableId);
+	public void setTableDrinkId(long tableDrinkId) {
+		model.setTableDrinkId(tableDrinkId);
 	}
 
 	/**

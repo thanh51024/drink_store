@@ -197,7 +197,6 @@
             margin-bottom: 10px;
         }
     }
-    
 </style>
 
  <portlet:renderURL var="createEditRender">
@@ -207,13 +206,22 @@
 <portlet:renderURL var="searchByCategoryURL">
     <portlet:param name="mvcRenderCommandName" value="/view" />
 </portlet:renderURL>
-<div class="header-section">
-    <aui:select name="tableNumber" label="Chọn bàn">
-        <aui:option value="1">Bàn 1</aui:option>
-        <aui:option value="2">Bàn 2</aui:option>
-        <aui:option value="3">Bàn 3</aui:option>
-        </aui:select>
 
+ <portlet:renderURL var="createEditTableDrinkRender">
+    <portlet:param name="mvcRenderCommandName" value="/createTableDrink/editTableDrink" />
+</portlet:renderURL>
+
+
+<div class="header-section">
+   <aui:select name="tableDrinkId" label="Chọn bàn">
+	    <c:forEach var="table" items="${tableList}">
+	        <aui:option value="${table.tableDrinkId}">
+	            Bàn ${table.tableNumber} - ${table.seats} chỗ - ${table.status}
+	        </aui:option>
+	    </c:forEach>
+	</aui:select>
+	
+	
     <aui:form action="${searchByCategoryURL}" method="get" name="categorySearchForm">
         <aui:select name="category" label="Tìm theo thể loại" onchange="document.forms.categorySearchForm.submit();">
             <c:set var="allSelected" value="${empty param.category || param.category eq ''}" />
@@ -241,17 +249,42 @@
     </aui:form>
 
     <aui:button-row>
-        <aui:button value="Xem đơn đã đặt" onClick="location.href='${viewOrderURL}'" cssClass="btn btn-info" />
-        <aui:button value="Thêm bàn mới" onClick="alert('Chức năng thêm bàn mới sẽ được phát triển sau!')" cssClass="btn btn-warning" />
         <aui:button value="Thêm nước mới" href="${createEditRender}" cssClass="btn btn-success"/>
+    	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn" />
+        <aui:button value="Xem đơn đã đặt" onClick="location.href='${viewOrderURL}'" cssClass="btn btn-info" />
+		<aui:button value="Xem danh sách bàn" onClick="toggleTableList()" cssClass="btn btn-info" />
     </aui:button-row>
+    <div id="tableListContainer" style="display: none;">
+	
+	    <div class="drink-card-wrapper">
+		    <c:forEach var="table" items="${tableList}">
+		        <div class="drink-card" style="width: 250px;height:90;padding-top: 10px">
+		            Bàn ${table.tableNumber}- ${table.seats} chỗ – ${table.status}
+		
+		            <div style="margin-top: 10px;">
+		                <portlet:renderURL var="editTableURL">
+		                    <portlet:param name="mvcRenderCommandName" value="/createTableDrink/editTableDrink" />
+		                    <portlet:param name="tableDrinkId" value="${table.tableDrinkId}" />
+		                </portlet:renderURL>
+		
+		                <portlet:actionURL name="/deleteTableDrink" var="deleteTableURL">
+		                    <portlet:param name="tableDrinkId" value="${table.tableDrinkId}" />
+		                </portlet:actionURL>
+		
+		                <aui:button value="Sửa" href="${editTableURL}" cssClass="btn btn-info" />
+		                <aui:button value="Xóa" href="${deleteTableURL}" cssClass="btn" />
+		            </div>
+		        </div>
+		    </c:forEach>
+		</div>
+	</div>
 </div>
 
 <div class="drink-list-outer-container">
     <div class="drink-list-container">
         <liferay-ui:search-container>
             <div class="drink-card-wrapper"> 
-                <liferay-ui:search-container-results results="${entries}" />
+                <liferay-ui:search-container-results results="${drinkList}" />
                 <liferay-ui:search-container-row
                     className="com.ntthanh.drink_store.model.Drink"
                     modelVar="drink"
@@ -292,9 +325,8 @@
                                 <aui:button type="submit" value="Chọn món" cssClass="btn btn-success" />
                             	<aui:button value="Sửa"  href="${editDrinkURL}&drinkId=${drink.id}" cssClass="btn btn-info" />         
 							
-								<aui:button value="Xóa" href="${deleteDrinkActionURL}"/>
-
-							                                           
+								<aui:button value="Xóa" href="${deleteDrinkActionURL}" onClick="toggleTableList()"/>
+		                                           
                             </aui:form>
                         </div>
                     </div>
@@ -304,3 +336,16 @@
         </liferay-ui:search-container>
     </div>
 </div>
+<script>
+	function toggleTableList() {
+	    var container = document.getElementById("tableListContainer");
+	    var toggleButton = document.getElementById("toggleTableListButton");
+	    if (container.style.display === "none") {
+	        container.style.display = "block";
+	        toggleButton.value = "danh "; 
+	    } else {
+	        container.style.display = "none";
+	        toggleButton.value = "Xem danh";
+	    }
+	}
+</script>

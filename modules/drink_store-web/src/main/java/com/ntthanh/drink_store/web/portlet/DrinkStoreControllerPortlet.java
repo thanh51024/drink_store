@@ -1,10 +1,13 @@
 package com.ntthanh.drink_store.web.portlet;
 
 import com.ntthanh.drink_store.model.Drink;
+import com.ntthanh.drink_store.model.TableDrink;
 import com.ntthanh.drink_store.service.DrinkService;
+import com.ntthanh.drink_store.service.TableDrinkService;
 import com.ntthanh.drink_store.web.constants.DrinkStoreControllerPortletKeys;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
@@ -41,12 +44,22 @@ public class DrinkStoreControllerPortlet extends MVCPortlet {
 			throws IOException, PortletException {
 		
 		System.out.println("DrinkPortlet.doView() -> ");
-		for(Drink drink: drinkService.getDinks(0,10))
+		List<TableDrink> tableList = tableDrinkService.getTableDrinks(-1, -1);
+		renderRequest.setAttribute("tableList", tableList);
+
+		for(Drink drink: drinkService.getDinks(0,100))
 			System.out.println("Drink name =" + drink.getDrinkName());
-		renderRequest.setAttribute("entries", drinkService.getDinks(0,10));
+		renderRequest.setAttribute("drinkList", drinkService.getDinks(-1,-1));
 		renderRequest.setAttribute("totalDrink", drinkService.getDinkCount());
 
 		super.doView(renderRequest, renderResponse);
+	}
+	private TableDrinkService tableDrinkService;
+	
+	@Reference(unbind ="-")
+	protected void setTableDrinkService(TableDrinkService tableDrinkService) {
+	
+		this.tableDrinkService=tableDrinkService;
 	}
 	
 	private DrinkService drinkService;

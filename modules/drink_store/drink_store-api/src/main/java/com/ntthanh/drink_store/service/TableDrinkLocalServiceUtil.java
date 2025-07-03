@@ -45,6 +45,11 @@ public class TableDrinkLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.ntthanh.drink_store.service.impl.TableDrinkLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static TableDrink addTableDrink(
+		int tableNumber, int seats, String status) {
+
+		return getService().addTableDrink(tableNumber, seats, status);
+	}
 
 	/**
 	 * Adds the table drink to the database. Also notifies the appropriate model listeners.
@@ -73,11 +78,11 @@ public class TableDrinkLocalServiceUtil {
 	/**
 	 * Creates a new table drink with the primary key. Does not add the table drink to the database.
 	 *
-	 * @param id the primary key for the new table drink
+	 * @param tableDrinkId the primary key for the new table drink
 	 * @return the new table drink
 	 */
-	public static TableDrink createTableDrink(long id) {
-		return getService().createTableDrink(id);
+	public static TableDrink createTableDrink(long tableDrinkId) {
+		return getService().createTableDrink(tableDrinkId);
 	}
 
 	/**
@@ -97,12 +102,14 @@ public class TableDrinkLocalServiceUtil {
 	 * <strong>Important:</strong> Inspect TableDrinkLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink that was removed
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
-	public static TableDrink deleteTableDrink(long id) throws PortalException {
-		return getService().deleteTableDrink(id);
+	public static TableDrink deleteTableDrink(long tableDrinkId)
+		throws PortalException {
+
+		return getService().deleteTableDrink(tableDrinkId);
 	}
 
 	/**
@@ -204,8 +211,20 @@ public class TableDrinkLocalServiceUtil {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static TableDrink fetchTableDrink(long id) {
-		return getService().fetchTableDrink(id);
+	public static TableDrink fetchTableDrink(long tableDrinkId) {
+		return getService().fetchTableDrink(tableDrinkId);
+	}
+
+	public static TableDrink fetchTableDrinkByTableDrinkId(long tableDrinkId) {
+		return getService().fetchTableDrinkByTableDrinkId(tableDrinkId);
+	}
+
+	public static TableDrink fetchTableDrinkId(long tableNumberId) {
+		return getService().fetchTableDrinkId(tableNumberId);
+	}
+
+	public static TableDrink findByTableDrinkId(long tableNumberId) {
+		return getService().findByTableDrinkId(tableNumberId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
@@ -242,12 +261,14 @@ public class TableDrinkLocalServiceUtil {
 	/**
 	 * Returns the table drink with the primary key.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink
 	 * @throws PortalException if a table drink with the primary key could not be found
 	 */
-	public static TableDrink getTableDrink(long id) throws PortalException {
-		return getService().getTableDrink(id);
+	public static TableDrink getTableDrink(long tableDrinkId)
+		throws PortalException {
+
+		return getService().getTableDrink(tableDrinkId);
 	}
 
 	/**
@@ -272,6 +293,13 @@ public class TableDrinkLocalServiceUtil {
 	 */
 	public static int getTableDrinksCount() {
 		return getService().getTableDrinksCount();
+	}
+
+	public static TableDrink updateTableDrink(
+			long id, int tableNumber, int seats, String status)
+		throws PortalException {
+
+		return getService().updateTableDrink(id, tableNumber, seats, status);
 	}
 
 	/**

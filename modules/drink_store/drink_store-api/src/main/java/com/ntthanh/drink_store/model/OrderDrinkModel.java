@@ -69,18 +69,18 @@ public interface OrderDrinkModel extends BaseModel<OrderDrink> {
 	public void setId(long id);
 
 	/**
-	 * Returns the table ID of this order drink.
+	 * Returns the table drink ID of this order drink.
 	 *
-	 * @return the table ID of this order drink
+	 * @return the table drink ID of this order drink
 	 */
-	public long getTableId();
+	public long getTableDrinkId();
 
 	/**
-	 * Sets the table ID of this order drink.
+	 * Sets the table drink ID of this order drink.
 	 *
-	 * @param tableId the table ID of this order drink
+	 * @param tableDrinkId the table drink ID of this order drink
 	 */
-	public void setTableId(long tableId);
+	public void setTableDrinkId(long tableDrinkId);
 
 	/**
 	 * Returns the total amount of this order drink.

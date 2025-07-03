@@ -34,6 +34,27 @@ public class TableDrinkServiceWrapper
 		_tableDrinkService = tableDrinkService;
 	}
 
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink addTableDrink(
+		int tableNumber, int seats, String status) {
+
+		return _tableDrinkService.addTableDrink(tableNumber, seats, status);
+	}
+
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink fetchTableDrink(
+		long tableDrinkId) {
+
+		return _tableDrinkService.fetchTableDrink(tableDrinkId);
+	}
+
+	@Override
+	public com.ntthanh.drink_store.model.TableDrink
+		fetchTableDrinkByTableDrinkId(long tableNumberId) {
+
+		return _tableDrinkService.fetchTableDrinkByTableDrinkId(tableNumberId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -42,6 +63,31 @@ public class TableDrinkServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _tableDrinkService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public int getTableDinkCount() {
+		return _tableDrinkService.getTableDinkCount();
+	}
+
+	@Override
+	public int getTableDrinkCount() {
+		return _tableDrinkService.getTableDrinkCount();
+	}
+
+	@Override
+	public java.util.List<com.ntthanh.drink_store.model.TableDrink>
+		getTableDrinks(int start, int end) {
+
+		return _tableDrinkService.getTableDrinks(start, end);
+	}
+
+	@Override
+	public void updateTableDrink(
+		long tableNumberId, int tableNumber, int seats, String status) {
+
+		_tableDrinkService.updateTableDrink(
+			tableNumberId, tableNumber, seats, status);
 	}
 
 	@Override

@@ -36,12 +36,12 @@ public interface TableDrink extends PersistedModel, TableDrinkModel {
 	 *
 	 * Never modify this interface directly. Add methods to <code>com.ntthanh.drink_store.model.impl.TableDrinkImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<TableDrink, Long> ID_ACCESSOR =
+	public static final Accessor<TableDrink, Long> TABLE_DRINK_ID_ACCESSOR =
 		new Accessor<TableDrink, Long>() {
 
 			@Override
 			public Long get(TableDrink tableDrink) {
-				return tableDrink.getId();
+				return tableDrink.getTableDrinkId();
 			}
 
 			@Override

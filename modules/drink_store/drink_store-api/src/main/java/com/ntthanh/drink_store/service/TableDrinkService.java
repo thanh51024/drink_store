@@ -20,7 +20,12 @@ import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import com.ntthanh.drink_store.model.TableDrink;
+
+import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +52,13 @@ public interface TableDrinkService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.ntthanh.drink_store.service.impl.TableDrinkServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the table drink remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link TableDrinkServiceUtil} if injection and service tracking are not available.
 	 */
+	public TableDrink addTableDrink(int tableNumber, int seats, String status);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public TableDrink fetchTableDrink(long tableDrinkId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public TableDrink fetchTableDrinkByTableDrinkId(long tableNumberId);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -54,5 +66,17 @@ public interface TableDrinkService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getTableDinkCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getTableDrinkCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<TableDrink> getTableDrinks(int start, int end);
+
+	public void updateTableDrink(
+		long tableNumberId, int tableNumber, int seats, String status);
 
 }

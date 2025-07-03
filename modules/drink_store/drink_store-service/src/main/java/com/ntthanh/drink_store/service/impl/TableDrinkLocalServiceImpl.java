@@ -15,7 +15,10 @@
 package com.ntthanh.drink_store.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.ntthanh.drink_store.exception.NoSuchTableDrinkException;
+import com.ntthanh.drink_store.model.TableDrink;
 import com.ntthanh.drink_store.service.base.TableDrinkLocalServiceBaseImpl;
 
 import org.osgi.service.component.annotations.Component;
@@ -27,5 +30,61 @@ import org.osgi.service.component.annotations.Component;
 	property = "model.class.name=com.ntthanh.drink_store.model.TableDrink",
 	service = AopService.class
 )
-public class TableDrinkLocalServiceImpl extends TableDrinkLocalServiceBaseImpl {
+public class TableDrinkLocalServiceImpl extends TableDrinkLocalServiceBaseImpl   implements AopService {
+	
+	public TableDrink addTableDrink(int tableNumber, int seats, String status) {
+	    long tableDrinkId = counterLocalService.increment();
+	    TableDrink tableDrink = tableDrinkPersistence.create(tableDrinkId);
+	    
+	    tableDrink.setTableNumber(tableNumber);
+	    tableDrink.setSeats(seats);
+	    tableDrink.setStatus(status);
+	    
+	    return tableDrinkPersistence.update(tableDrink);
+	}
+
+	public TableDrink updateTableDrink(long id, int tableNumber, int seats, String status) throws PortalException {
+	    TableDrink tableDrink = tableDrinkPersistence.findByPrimaryKey(id);
+	    
+	    tableDrink.setTableNumber(tableNumber);
+	    tableDrink.setSeats(seats);
+	    tableDrink.setStatus(status);
+
+	    return tableDrinkPersistence.update(tableDrink);
+	}
+	
+
+	 @Override
+	    public TableDrink fetchTableDrink(long tableDrinkId) {
+	        try {
+	            
+	            TableDrink tableDrink = tableDrinkPersistence.findByPrimaryKey(tableDrinkId);
+	            
+	            return tableDrink;
+	        } catch (com.liferay.portal.kernel.exception.NoSuchModelException e) {
+	            System.out.println("Không tìm thấy TableDrink với ID: " + tableDrinkId);
+	            return null; 
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+	    }
+
+	@Override
+	public TableDrink fetchTableDrinkId(long tableNumberId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TableDrink findByTableDrinkId(long tableNumberId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TableDrink fetchTableDrinkByTableDrinkId(long tableDrinkId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

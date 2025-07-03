@@ -35,7 +35,7 @@
 	
 	<entity local-service="true" name="TableDrink" remote-service="true">
 		<!-- PK fields khóa chính-->
-		<column name="id" primary="true" type="long" />
+		<column name="tableDrinkId" primary="true" type="long" />
 		<column name="tableNumber" type="int" />
 		<column name="seats" type="int" />
 		<column name="status" type="String" />
@@ -46,6 +46,9 @@
 		</order>
 
 		<!-- Finder methods  -->
+		<finder name="TableDrinkId" return-type="TableDrink">
+		    <finder-column name="tableDrinkId" />
+		</finder>
 		<finder name="TableNumber" return-type="Collection"> 
 			<finder-column name="tableNumber" />
 		</finder>
@@ -61,7 +64,7 @@
 	<entity local-service="true" name="OrderDrink" remote-service="true">
 		<!-- PK fields khóa chính-->
 		<column name="id" primary="true" type="long" />
-		<column name="tableId" type="long" />
+		<column name="tableDrinkId" type="long" />
 		<column name="totalAmount" type="double" />
 		<column name="orderDate" type="Date" />
 		<column name="paid" type="boolean" />

@@ -41,7 +41,7 @@ public class TableDrinkWrapper
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("id", getId());
+		attributes.put("tableDrinkId", getTableDrinkId());
 		attributes.put("tableNumber", getTableNumber());
 		attributes.put("seats", getSeats());
 		attributes.put("status", getStatus());
@@ -51,10 +51,10 @@ public class TableDrinkWrapper
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		Long id = (Long)attributes.get("id");
+		Long tableDrinkId = (Long)attributes.get("tableDrinkId");
 
-		if (id != null) {
-			setId(id);
+		if (tableDrinkId != null) {
+			setTableDrinkId(tableDrinkId);
 		}
 
 		Integer tableNumber = (Integer)attributes.get("tableNumber");
@@ -79,16 +79,6 @@ public class TableDrinkWrapper
 	@Override
 	public TableDrink cloneWithOriginalValues() {
 		return wrap(model.cloneWithOriginalValues());
-	}
-
-	/**
-	 * Returns the ID of this table drink.
-	 *
-	 * @return the ID of this table drink
-	 */
-	@Override
-	public long getId() {
-		return model.getId();
 	}
 
 	/**
@@ -122,6 +112,16 @@ public class TableDrinkWrapper
 	}
 
 	/**
+	 * Returns the table drink ID of this table drink.
+	 *
+	 * @return the table drink ID of this table drink
+	 */
+	@Override
+	public long getTableDrinkId() {
+		return model.getTableDrinkId();
+	}
+
+	/**
 	 * Returns the table number of this table drink.
 	 *
 	 * @return the table number of this table drink
@@ -134,16 +134,6 @@ public class TableDrinkWrapper
 	@Override
 	public void persist() {
 		model.persist();
-	}
-
-	/**
-	 * Sets the ID of this table drink.
-	 *
-	 * @param id the ID of this table drink
-	 */
-	@Override
-	public void setId(long id) {
-		model.setId(id);
 	}
 
 	/**
@@ -174,6 +164,16 @@ public class TableDrinkWrapper
 	@Override
 	public void setStatus(String status) {
 		model.setStatus(status);
+	}
+
+	/**
+	 * Sets the table drink ID of this table drink.
+	 *
+	 * @param tableDrinkId the table drink ID of this table drink
+	 */
+	@Override
+	public void setTableDrinkId(long tableDrinkId) {
+		model.setTableDrinkId(tableDrinkId);
 	}
 
 	/**

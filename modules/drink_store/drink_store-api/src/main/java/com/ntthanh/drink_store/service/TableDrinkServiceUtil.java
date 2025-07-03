@@ -14,6 +14,10 @@
 
 package com.ntthanh.drink_store.service;
 
+import com.ntthanh.drink_store.model.TableDrink;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for TableDrink. This utility wraps
  * <code>com.ntthanh.drink_store.service.impl.TableDrinkServiceImpl</code> and is an
@@ -33,14 +37,46 @@ public class TableDrinkServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.ntthanh.drink_store.service.impl.TableDrinkServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static TableDrink addTableDrink(
+		int tableNumber, int seats, String status) {
+
+		return getService().addTableDrink(tableNumber, seats, status);
+	}
+
+	public static TableDrink fetchTableDrink(long tableDrinkId) {
+		return getService().fetchTableDrink(tableDrinkId);
+	}
+
+	public static TableDrink fetchTableDrinkByTableDrinkId(long tableNumberId) {
+		return getService().fetchTableDrinkByTableDrinkId(tableNumberId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static int getTableDinkCount() {
+		return getService().getTableDinkCount();
+	}
+
+	public static int getTableDrinkCount() {
+		return getService().getTableDrinkCount();
+	}
+
+	public static List<TableDrink> getTableDrinks(int start, int end) {
+		return getService().getTableDrinks(start, end);
+	}
+
+	public static void updateTableDrink(
+		long tableNumberId, int tableNumber, int seats, String status) {
+
+		getService().updateTableDrink(
+			tableNumberId, tableNumber, seats, status);
 	}
 
 	public static TableDrinkService getService() {

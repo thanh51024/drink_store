@@ -67,8 +67,8 @@ public class OrderDrinkCacheModel
 
 		sb.append("{id=");
 		sb.append(id);
-		sb.append(", tableId=");
-		sb.append(tableId);
+		sb.append(", tableDrinkId=");
+		sb.append(tableDrinkId);
 		sb.append(", totalAmount=");
 		sb.append(totalAmount);
 		sb.append(", orderDate=");
@@ -85,7 +85,7 @@ public class OrderDrinkCacheModel
 		OrderDrinkImpl orderDrinkImpl = new OrderDrinkImpl();
 
 		orderDrinkImpl.setId(id);
-		orderDrinkImpl.setTableId(tableId);
+		orderDrinkImpl.setTableDrinkId(tableDrinkId);
 		orderDrinkImpl.setTotalAmount(totalAmount);
 
 		if (orderDate == Long.MIN_VALUE) {
@@ -106,7 +106,7 @@ public class OrderDrinkCacheModel
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		id = objectInput.readLong();
 
-		tableId = objectInput.readLong();
+		tableDrinkId = objectInput.readLong();
 
 		totalAmount = objectInput.readDouble();
 		orderDate = objectInput.readLong();
@@ -118,7 +118,7 @@ public class OrderDrinkCacheModel
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(id);
 
-		objectOutput.writeLong(tableId);
+		objectOutput.writeLong(tableDrinkId);
 
 		objectOutput.writeDouble(totalAmount);
 		objectOutput.writeLong(orderDate);
@@ -127,7 +127,7 @@ public class OrderDrinkCacheModel
 	}
 
 	public long id;
-	public long tableId;
+	public long tableDrinkId;
 	public double totalAmount;
 	public long orderDate;
 	public boolean paid;

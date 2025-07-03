@@ -121,6 +121,65 @@ public class TableDrinkUtil {
 	}
 
 	/**
+	 * Returns the table drink where tableDrinkId = &#63; or throws a <code>NoSuchTableDrinkException</code> if it could not be found.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the matching table drink
+	 * @throws NoSuchTableDrinkException if a matching table drink could not be found
+	 */
+	public static TableDrink findByTableDrinkId(long tableDrinkId)
+		throws com.ntthanh.drink_store.exception.NoSuchTableDrinkException {
+
+		return getPersistence().findByTableDrinkId(tableDrinkId);
+	}
+
+	/**
+	 * Returns the table drink where tableDrinkId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the matching table drink, or <code>null</code> if a matching table drink could not be found
+	 */
+	public static TableDrink fetchByTableDrinkId(long tableDrinkId) {
+		return getPersistence().fetchByTableDrinkId(tableDrinkId);
+	}
+
+	/**
+	 * Returns the table drink where tableDrinkId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching table drink, or <code>null</code> if a matching table drink could not be found
+	 */
+	public static TableDrink fetchByTableDrinkId(
+		long tableDrinkId, boolean useFinderCache) {
+
+		return getPersistence().fetchByTableDrinkId(
+			tableDrinkId, useFinderCache);
+	}
+
+	/**
+	 * Removes the table drink where tableDrinkId = &#63; from the database.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the table drink that was removed
+	 */
+	public static TableDrink removeByTableDrinkId(long tableDrinkId)
+		throws com.ntthanh.drink_store.exception.NoSuchTableDrinkException {
+
+		return getPersistence().removeByTableDrinkId(tableDrinkId);
+	}
+
+	/**
+	 * Returns the number of table drinks where tableDrinkId = &#63;.
+	 *
+	 * @param tableDrinkId the table drink ID
+	 * @return the number of matching table drinks
+	 */
+	public static int countByTableDrinkId(long tableDrinkId) {
+		return getPersistence().countByTableDrinkId(tableDrinkId);
+	}
+
+	/**
 	 * Returns all the table drinks where tableNumber = &#63;.
 	 *
 	 * @param tableNumber the table number
@@ -255,19 +314,19 @@ public class TableDrinkUtil {
 	/**
 	 * Returns the table drinks before and after the current table drink in the ordered set where tableNumber = &#63;.
 	 *
-	 * @param id the primary key of the current table drink
+	 * @param tableDrinkId the primary key of the current table drink
 	 * @param tableNumber the table number
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next table drink
 	 * @throws NoSuchTableDrinkException if a table drink with the primary key could not be found
 	 */
 	public static TableDrink[] findByTableNumber_PrevAndNext(
-			long id, int tableNumber,
+			long tableDrinkId, int tableNumber,
 			OrderByComparator<TableDrink> orderByComparator)
 		throws com.ntthanh.drink_store.exception.NoSuchTableDrinkException {
 
 		return getPersistence().findByTableNumber_PrevAndNext(
-			id, tableNumber, orderByComparator);
+			tableDrinkId, tableNumber, orderByComparator);
 	}
 
 	/**
@@ -420,19 +479,19 @@ public class TableDrinkUtil {
 	/**
 	 * Returns the table drinks before and after the current table drink in the ordered set where status = &#63;.
 	 *
-	 * @param id the primary key of the current table drink
+	 * @param tableDrinkId the primary key of the current table drink
 	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next table drink
 	 * @throws NoSuchTableDrinkException if a table drink with the primary key could not be found
 	 */
 	public static TableDrink[] findByStatus_PrevAndNext(
-			long id, String status,
+			long tableDrinkId, String status,
 			OrderByComparator<TableDrink> orderByComparator)
 		throws com.ntthanh.drink_store.exception.NoSuchTableDrinkException {
 
 		return getPersistence().findByStatus_PrevAndNext(
-			id, status, orderByComparator);
+			tableDrinkId, status, orderByComparator);
 	}
 
 	/**
@@ -583,18 +642,19 @@ public class TableDrinkUtil {
 	/**
 	 * Returns the table drinks before and after the current table drink in the ordered set where seats = &#63;.
 	 *
-	 * @param id the primary key of the current table drink
+	 * @param tableDrinkId the primary key of the current table drink
 	 * @param seats the seats
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next table drink
 	 * @throws NoSuchTableDrinkException if a table drink with the primary key could not be found
 	 */
 	public static TableDrink[] findBySeats_PrevAndNext(
-			long id, int seats, OrderByComparator<TableDrink> orderByComparator)
+			long tableDrinkId, int seats,
+			OrderByComparator<TableDrink> orderByComparator)
 		throws com.ntthanh.drink_store.exception.NoSuchTableDrinkException {
 
 		return getPersistence().findBySeats_PrevAndNext(
-			id, seats, orderByComparator);
+			tableDrinkId, seats, orderByComparator);
 	}
 
 	/**
@@ -637,24 +697,24 @@ public class TableDrinkUtil {
 	/**
 	 * Creates a new table drink with the primary key. Does not add the table drink to the database.
 	 *
-	 * @param id the primary key for the new table drink
+	 * @param tableDrinkId the primary key for the new table drink
 	 * @return the new table drink
 	 */
-	public static TableDrink create(long id) {
-		return getPersistence().create(id);
+	public static TableDrink create(long tableDrinkId) {
+		return getPersistence().create(tableDrinkId);
 	}
 
 	/**
 	 * Removes the table drink with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink that was removed
 	 * @throws NoSuchTableDrinkException if a table drink with the primary key could not be found
 	 */
-	public static TableDrink remove(long id)
+	public static TableDrink remove(long tableDrinkId)
 		throws com.ntthanh.drink_store.exception.NoSuchTableDrinkException {
 
-		return getPersistence().remove(id);
+		return getPersistence().remove(tableDrinkId);
 	}
 
 	public static TableDrink updateImpl(TableDrink tableDrink) {
@@ -664,24 +724,24 @@ public class TableDrinkUtil {
 	/**
 	 * Returns the table drink with the primary key or throws a <code>NoSuchTableDrinkException</code> if it could not be found.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink
 	 * @throws NoSuchTableDrinkException if a table drink with the primary key could not be found
 	 */
-	public static TableDrink findByPrimaryKey(long id)
+	public static TableDrink findByPrimaryKey(long tableDrinkId)
 		throws com.ntthanh.drink_store.exception.NoSuchTableDrinkException {
 
-		return getPersistence().findByPrimaryKey(id);
+		return getPersistence().findByPrimaryKey(tableDrinkId);
 	}
 
 	/**
 	 * Returns the table drink with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param id the primary key of the table drink
+	 * @param tableDrinkId the primary key of the table drink
 	 * @return the table drink, or <code>null</code> if a table drink with the primary key could not be found
 	 */
-	public static TableDrink fetchByPrimaryKey(long id) {
-		return getPersistence().fetchByPrimaryKey(id);
+	public static TableDrink fetchByPrimaryKey(long tableDrinkId) {
+		return getPersistence().fetchByPrimaryKey(tableDrinkId);
 	}
 
 	/**
