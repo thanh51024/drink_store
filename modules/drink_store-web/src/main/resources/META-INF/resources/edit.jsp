@@ -107,12 +107,13 @@
         <%-- Dropdown cho Loại (Category) --%>
         <aui:select name="category" label="Loại" required="true" value="${editDrink.category}">
             <aui:option value="">-- Chọn loại --</aui:option>
-            <aui:option value="Cà phê">Cà Phê</aui:option>
-            <aui:option value="Trà">Trà</aui:option>
+            <aui:option value="Trà Sữa">Trà Sữa</aui:option>
             <aui:option value="Nước ép">Nước Ép</aui:option>
             <aui:option value="Sinh tố">Sinh Tố</aui:option>
+            <aui:option value="Cà phê">Cà Phê</aui:option>
+            <aui:option value="Trà">Trà</aui:option>
             <aui:option value="Nước ngọt">Nước ngọt</aui:option>
-            <aui:option value="Trà Sữa">Trà Sữa</aui:option>
+            <aui:option value="Nước suối">Nước suối</aui:option>
         </aui:select>
 
         <aui:input name="price" label="Giá (VND)"  required="true" type="number" step="1000" min="1000" value="${editDrink.price}" />
@@ -122,10 +123,8 @@
             <aui:input name="newImageFile" label="" type="file" /> 
         </div>
         
-        <%-- Hiển thị ảnh hiện tại nếu đang ở chế độ chỉnh sửa và có ảnh --%>
         <c:if test="${not empty editDrink.imageUrl}">
             <div style="text-align: center; margin-top: 15px;">
-                <p>Ảnh hiện tại:</p>
                 <img src="${editDrink.imageUrl}" alt="Ảnh ${editDrink.drinkName}" class="current-drink-image" style="width:150px; height:200px; object-fit:cover;" />
             </div>
             

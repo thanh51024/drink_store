@@ -110,13 +110,14 @@ public class DrinkModelImpl extends BaseModelImpl<Drink> implements DrinkModel {
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long DRINKNAME_COLUMN_BITMASK = 2L;
+	public static final long PRICE_COLUMN_BITMASK = 2L;
 
 	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long PRICE_COLUMN_BITMASK = 4L;
+	public static final long DRINKNAME_COLUMN_BITMASK = 4L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -278,15 +279,6 @@ public class DrinkModelImpl extends BaseModelImpl<Drink> implements DrinkModel {
 		}
 
 		_drinkName = drinkName;
-	}
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *             #getColumnOriginalValue(String)}
-	 */
-	@Deprecated
-	public String getOriginalDrinkName() {
-		return getColumnOriginalValue("drinkName");
 	}
 
 	@JSON

@@ -234,6 +234,13 @@ public class DrinkLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.ntthanh.drink_store.model.Drink> findByCategory(
+		String category) {
+
+		return _drinkLocalService.findByCategory(category);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

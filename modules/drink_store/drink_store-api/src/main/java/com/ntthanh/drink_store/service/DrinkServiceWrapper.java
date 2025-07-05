@@ -42,6 +42,13 @@ public class DrinkServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.ntthanh.drink_store.model.Drink> findByCategory(
+		String category) {
+
+		return _drinkService.findByCategory(category);
+	}
+
+	@Override
 	public Long getDinkCount() {
 		return _drinkService.getDinkCount();
 	}

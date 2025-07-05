@@ -214,6 +214,10 @@ public class DrinkLocalServiceUtil {
 		return getService().fetchDrink(id);
 	}
 
+	public static List<Drink> findByCategory(String category) {
+		return getService().findByCategory(category);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

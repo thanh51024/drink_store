@@ -86,7 +86,7 @@
 
     .drink-card {
         flex-shrink: 0; 
-        width: 300px; 
+        width: 280px; 
         height: auto; 
         display: flex;
         flex-direction: column;
@@ -105,13 +105,6 @@
         box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     }
 
-    .drink-card img {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
 
     .drink-details {
         width: 100%;
@@ -203,15 +196,12 @@
     <portlet:param name="mvcRenderCommandName" value="/create/edit" />
 </portlet:renderURL>
 				
-<portlet:renderURL var="searchByCategoryURL">
-    <portlet:param name="mvcRenderCommandName" value="/view" />
-</portlet:renderURL>
+<portlet:actionURL var="searchByCategoryURL" name="searchByCategoryURL"/>
 
  <portlet:renderURL var="createEditTableDrinkRender">
     <portlet:param name="mvcRenderCommandName" value="/createTableDrink/editTableDrink" />
 </portlet:renderURL>
-
-
+	
 <div class="header-section">
    <aui:select name="tableDrinkId" label="Chọn bàn">
 	    <c:forEach var="table" items="${tableList}">
@@ -221,33 +211,19 @@
 	    </c:forEach>
 	</aui:select>
 	
+	<aui:form action="${searchByCategoryURL}" method="post" name="fm">
+	    <aui:select name="category" label="Tìm theo thể loại" onchange="this.form.submit();">
+	        <aui:option value="" selected="${empty param.category || param.category eq ''}">Tất cả</aui:option>
+	        <aui:option value="Trà sữa" selected="${param.category eq 'Trà sữa'}">Trà sữa</aui:option>
+	        <aui:option value="Nước ép" selected="${param.category eq 'Nước ép'}">Nước ép</aui:option>
+	        <aui:option value="Sinh tố" selected="${param.category eq 'Sinh tố'}">Sinh tố</aui:option>
+	        <aui:option value="Cà phê" selected="${param.category eq 'Cà phê'}">Cà phê</aui:option>
+	        <aui:option value="Trà" selected="${param.category eq 'Trà'}">Trà</aui:option>
+	        <aui:option value="Nước ngọt" selected="${param.category eq 'Nước ngọt'}">Nước ngọt</aui:option>
+	       	<aui:option value="Nước suối" selected="${param.category eq 'Nước suối'}">Nước suối</aui:option>
+	    </aui:select>
+	</aui:form>
 	
-    <aui:form action="${searchByCategoryURL}" method="get" name="categorySearchForm">
-        <aui:select name="category" label="Tìm theo thể loại" onchange="document.forms.categorySearchForm.submit();">
-            <c:set var="allSelected" value="${empty param.category || param.category eq ''}" />
-            <aui:option value="" selected="${allSelected}">Tất cả</aui:option>
-
-            <c:set var="coffeeSelected" value="${param.category eq 'Cà phê'}" />
-            <aui:option value="Cà phê" selected="${coffeeSelected}">Cà phê</aui:option>
-
-            <c:set var="teaSelected" value="${param.category eq 'Trà'}" />
-            <aui:option value="Trà" selected="${teaSelected}">Trà</aui:option>
-
-			<c:set var="milkTeaSelected" value="${param.category eq 'Trà sữa'}" />
-            <aui:option value="Trà sữa" selected="${teaSelected}">Trà sữa</aui:option>
-            
-            <c:set var="juiceSelected" value="${param.category eq 'Nước ép'}" />
-            <aui:option value="Nước ép" selected="${juiceSelected}">Nước ép</aui:option>
-
-			<c:set var="sodaSelected" value="${param.category eq 'Nước ngọt'}" />
-            <aui:option value="Nước ngọt" selected="${smoothieSelected}">Nước ngọt</aui:option>
-            
-            <c:set var="smoothieSelected" value="${param.category eq 'Sinh tố'}" />
-            <aui:option value="Sinh tố" selected="${smoothieSelected}">Sinh tố</aui:option>
-
-        </aui:select>
-    </aui:form>
-
     <aui:button-row>
         <aui:button value="Thêm nước mới" href="${createEditRender}" cssClass="btn btn-success"/>
     	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn btn-success" />
@@ -291,7 +267,6 @@
                     keyProperty="id"
                 >
                
-				
 				<portlet:renderURL var="editDrinkURL">
 				    <portlet:param name="mvcRenderCommandName" value="/create/edit" />
 				    <portlet:param name="drinkId" value="${drink.id}" />
@@ -311,7 +286,7 @@
                         </c:if>
                         <div class="drink-details">
                             <h2>${drink.drinkName}</h4>
-                            <h4><strong>Loại:</strong> ${drink.category} - <strong>Giá:</strong> ${drink.price} VND</h4>
+                            <h4><strong>Loại:</strong> ${drink.category} - ${drink.price} VND</h4>
 
                             <aui:form action="<portlet:actionURL name='/addToOrder'/>" method="post" name="drinkForm${drink.id}">
                                 <aui:input type="hidden" name="drinkId" value="${drink.id}" />

@@ -20,10 +20,7 @@
 
 		<!-- Finder methods hàm lọc: tên hàm: Name; tên cột cần tìm name: trả về bản ghi Collection
 		List<String> name = drinkLocalServiceUtil.findByName(String);-->
-		<finder name="DrinkName" return-type="Collection"> 
-			<finder-column name="drinkName" />
-			<finder-column name="category" />
-		</finder>
+		
 		<finder name="Category" return-type="Collection"> 
 			<finder-column name="category" />
 		</finder>

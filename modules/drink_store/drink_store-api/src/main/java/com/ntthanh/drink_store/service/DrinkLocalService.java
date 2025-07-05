@@ -203,6 +203,8 @@ public interface DrinkLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Drink fetchDrink(long id);
 
+	public List<Drink> findByCategory(String category);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

@@ -63,5 +63,14 @@ public class DrinkServiceImpl extends DrinkServiceBaseImpl {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public List<Drink> findByCategory(String category) {
+		List<Drink> drinks = drinkPersistence.findByCategory(category);
+		System.out.println("=> Searching category: " + category);
+		System.out.println("=> Result count: " + drinks.size());
+		System.out.println(drinks);
+		return drinks;
+	}
 	
 }

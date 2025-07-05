@@ -21,6 +21,8 @@ import com.ntthanh.drink_store.model.impl.DrinkImpl;
 import com.ntthanh.drink_store.service.DrinkLocalService;
 import com.ntthanh.drink_store.service.base.DrinkLocalServiceBaseImpl;
 
+import java.util.List;
+
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
@@ -62,5 +64,10 @@ public class DrinkLocalServiceImpl extends DrinkLocalServiceBaseImpl implements 
 		drink.setImageUrl(imageUrl);
 
 		return drinkPersistence.update(drink);
+	}
+	
+	public List<Drink> findByCategory(String category) {
+		List<Drink> drinks = drinkPersistence.findByCategory(category);
+		return drinks;
 	}
 }

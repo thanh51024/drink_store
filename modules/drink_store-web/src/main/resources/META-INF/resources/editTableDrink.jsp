@@ -102,14 +102,12 @@
 
 		<aui:input name="tableNumber" label="Số bàn" value="${editTableDrink.tableNumber}" type="text" readonly="true" />
 
-        <aui:select name="seats" label="Số chỗ ngồi" required="true">
+        <aui:select name="seats" label="Số chỗ ngồi" required="true" value="4">
+        	<aui:option value="2" selected="${editTableDrink.seats eq 2}">2</aui:option>
 		    <aui:option value="4" selected="${editTableDrink.seats eq 4}">4</aui:option>
 		    <aui:option value="6" selected="${editTableDrink.seats eq 6}">6</aui:option>
 		    <aui:option value="8" selected="${editTableDrink.seats eq 8}">8</aui:option>
 		    <aui:option value="10" selected="${editTableDrink.seats eq 10}">10</aui:option>
-		    <aui:option value="12" selected="${editTableDrink.seats eq 12}">12</aui:option>
-		    <aui:option value="16" selected="${editTableDrink.seats eq 16}">16</aui:option>
-		    <aui:option value="20" selected="${editTableDrink.seats eq 20}">20</aui:option>
 		</aui:select>
 
         <aui:select name="status" label="Trạng thái" required="true">
