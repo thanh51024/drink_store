@@ -206,6 +206,37 @@ public class DrinkServiceHttp {
 		}
 	}
 
+	public static com.ntthanh.drink_store.model.Drink fetchDrink(
+		HttpPrincipal httpPrincipal, long drinkId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				DrinkServiceUtil.class, "fetchDrink",
+				_fetchDrinkParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, drinkId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.ntthanh.drink_store.model.Drink)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(DrinkServiceHttp.class);
 
 	private static final Class<?>[] _addDrinkParameterTypes0 = new Class[] {
@@ -221,5 +252,8 @@ public class DrinkServiceHttp {
 	};
 	private static final Class<?>[] _findByCategoryParameterTypes4 =
 		new Class[] {String.class};
+	private static final Class<?>[] _fetchDrinkParameterTypes5 = new Class[] {
+		long.class
+	};
 
 }

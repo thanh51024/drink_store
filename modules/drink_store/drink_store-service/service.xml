@@ -59,7 +59,6 @@
 	
 	
 	<entity local-service="true" name="OrderDrink" remote-service="true">
-		<!-- PK fields khóa chính-->
 		<column name="id" primary="true" type="long" />
 		<column name="tableDrinkId" type="long" />
 		<column name="totalAmount" type="double" />
@@ -93,10 +92,9 @@
 			<order-column name="orderId" />
 		</order>
 
-		<!-- Finder methods -->
-		<finder name="OrderId" return-type="Collection"> 
-			<finder-column name="orderId" />
-		</finder>
+		 <finder name="OrderId" return-type="Collection">
+	        <finder-column name="orderId" />
+	    </finder>
 	</entity>
 	
 </service-builder>

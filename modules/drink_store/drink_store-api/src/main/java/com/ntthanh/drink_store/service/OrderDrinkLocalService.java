@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import com.ntthanh.drink_store.model.OrderDetail;
 import com.ntthanh.drink_store.model.OrderDrink;
 
 import java.io.Serializable;
@@ -199,6 +200,8 @@ public interface OrderDrinkLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public OrderDrink fetchOrderDrink(long id);
+
+	public List<OrderDetail> findByOrderId(long orderId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

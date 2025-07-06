@@ -50,7 +50,7 @@ public class SaveTableDrinkMVCActionCommand extends BaseMVCActionCommand{
 
 	        TableDrink existingTableDrink = null;
 	        if (tableDrinkId > 0) {
-	            // Cố gắng tìm bàn trong database
+	            // Tìm bàn
 	            existingTableDrink = tableDrinkLocalService.fetchTableDrink(tableDrinkId);
 	        }
 

@@ -133,8 +133,8 @@
         </c:if>
                                     	
         <aui:button-row>
-            <aui:button cssClass="btn btn-primary" type="submit"  value="${empty editDrink ? 'Tạo':'Cập nhật'}"/>
-            <aui:button type="cancel" value="Hủy" onClick="history.back();"cssClass="btn-cancel" />
+            <aui:button cssClass="btn btn-success btn-sm" type="submit"  value="${empty editDrink ? 'Tạo':'Cập nhật'}"/>
+            <aui:button type="cancel" value="Hủy" onClick="history.back();"cssClass="btn-cancel btn btn-sm" />
             
         </aui:button-row>
       

@@ -42,6 +42,11 @@ public class DrinkServiceWrapper
 	}
 
 	@Override
+	public com.ntthanh.drink_store.model.Drink fetchDrink(long drinkId) {
+		return _drinkService.fetchDrink(drinkId);
+	}
+
+	@Override
 	public java.util.List<com.ntthanh.drink_store.model.Drink> findByCategory(
 		String category) {
 

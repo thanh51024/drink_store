@@ -229,6 +229,13 @@ public class OrderDrinkLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.ntthanh.drink_store.model.OrderDetail>
+		findByOrderId(long orderId) {
+
+		return _orderDrinkLocalService.findByOrderId(orderId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

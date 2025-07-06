@@ -15,8 +15,10 @@
 package com.ntthanh.drink_store.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
+import com.ntthanh.drink_store.model.OrderDetail;
 import com.ntthanh.drink_store.service.base.OrderDetailLocalServiceBaseImpl;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -29,4 +31,8 @@ import org.osgi.service.component.annotations.Component;
 )
 public class OrderDetailLocalServiceImpl
 	extends OrderDetailLocalServiceBaseImpl {
+	
+	public List<OrderDetail> getOrderDetailsByOrderId(long orderId) {
+	    return orderDetailPersistence.findByOrderId(orderId);
+	}
 }

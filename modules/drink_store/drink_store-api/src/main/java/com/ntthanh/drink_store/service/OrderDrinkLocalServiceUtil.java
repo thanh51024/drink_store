@@ -208,6 +208,12 @@ public class OrderDrinkLocalServiceUtil {
 		return getService().fetchOrderDrink(id);
 	}
 
+	public static List<com.ntthanh.drink_store.model.OrderDetail> findByOrderId(
+		long orderId) {
+
+		return getService().findByOrderId(orderId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

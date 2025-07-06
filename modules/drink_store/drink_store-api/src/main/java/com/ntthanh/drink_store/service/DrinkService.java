@@ -55,6 +55,9 @@ public interface DrinkService extends BaseService {
 	public Drink addDrink(
 		String drinkName, String category, double price, String imageUrl);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Drink fetchDrink(long drinkId);
+
 	public List<Drink> findByCategory(String category);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

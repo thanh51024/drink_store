@@ -67,10 +67,23 @@ public class DrinkServiceImpl extends DrinkServiceBaseImpl {
 	@Override
 	public List<Drink> findByCategory(String category) {
 		List<Drink> drinks = drinkPersistence.findByCategory(category);
+	
 		System.out.println("=> Searching category: " + category);
 		System.out.println("=> Result count: " + drinks.size());
 		System.out.println(drinks);
 		return drinks;
+	}
+
+	@Override
+	public Drink fetchDrink(long drinkId) {
+		try {
+			Drink drink= drinkPersistence.findByPrimaryKey(drinkId);
+			return drink;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

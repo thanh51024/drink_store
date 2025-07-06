@@ -55,26 +55,26 @@
         outline: none;
     }
 
+
     .aui-button-row {
         text-align: center;
         margin-top: 30px;
     }
 
     .aui-button {
+    	text-align: center;
+    	display:flex;
+    	justify-content: center;
         padding: 12px 30px;
         font-size: 1.1em;
         font-weight: 600;
         border-radius: 8px;
         cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
         border: none;
         background-color: #007bff;
         color: white;
         box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .aui-button:hover {
-        background-color: #0056b3;
     }
 
     input[type="number"]::-webkit-inner-spin-button,
@@ -111,14 +111,14 @@
 		</aui:select>
 
         <aui:select name="status" label="Trạng thái" required="true">
-            <aui:option value="Trống" selected="${empty editTableDrink or editTableDrink.status eq 'Trống'}">Trống</aui:option>
-            <aui:option value="Đang sử dụng" selected="${editTableDrink.status eq 'Đang sử dụng'}">Đang sử dụng</aui:option>
-            <aui:option value="Đã đặt" selected="${editTableDrink.status eq 'Đã đặt'}">Đã đặt</aui:option>
+            <aui:option value="Trong" selected="${empty editTableDrink or editTableDrink.status eq 'Trong'}">Trống</aui:option>
+            <aui:option value="Dang su dung" selected="${editTableDrink.status eq 'Dang su dung'}">Đang sử dụng</aui:option>
+            <aui:option value="Da dat" selected="${editTableDrink.status eq 'Da dat'}">da datĐã đặt</aui:option>
         </aui:select>
 
         <aui:button-row>
-			<aui:button cssClass="btn btn-primary" type="submit" value="Xác nhận" />
-            <aui:button type="cancel" value="Hủy" onClick="history.back();" cssClass="btn-cancel" />
+			<aui:button cssClass="btn btn-success btn-sm" type="submit" value="Xác nhận" />
+            <aui:button type="cancel" value="Hủy" onClick="history.back();" cssClass="btn-cancel btn btn-sm" />
         </aui:button-row>
 
     </aui:form>

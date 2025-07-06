@@ -230,6 +230,9 @@ public interface OrderDetailLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<OrderDetail> getOrderDetails(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<OrderDetail> getOrderDetailsByOrderId(long orderId);
+
 	/**
 	 * Returns the number of order details.
 	 *

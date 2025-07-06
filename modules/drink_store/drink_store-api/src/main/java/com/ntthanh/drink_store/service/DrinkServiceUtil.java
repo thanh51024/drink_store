@@ -43,6 +43,10 @@ public class DrinkServiceUtil {
 		return getService().addDrink(drinkName, category, price, imageUrl);
 	}
 
+	public static Drink fetchDrink(long drinkId) {
+		return getService().fetchDrink(drinkId);
+	}
+
 	public static List<Drink> findByCategory(String category) {
 		return getService().findByCategory(category);
 	}

@@ -277,6 +277,13 @@ public class OrderDetailLocalServiceWrapper
 		return _orderDetailLocalService.getOrderDetails(start, end);
 	}
 
+	@Override
+	public java.util.List<com.ntthanh.drink_store.model.OrderDetail>
+		getOrderDetailsByOrderId(long orderId) {
+
+		return _orderDetailLocalService.getOrderDetailsByOrderId(orderId);
+	}
+
 	/**
 	 * Returns the number of order details.
 	 *

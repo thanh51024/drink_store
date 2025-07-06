@@ -249,6 +249,10 @@ public class OrderDetailLocalServiceUtil {
 		return getService().getOrderDetails(start, end);
 	}
 
+	public static List<OrderDetail> getOrderDetailsByOrderId(long orderId) {
+		return getService().getOrderDetailsByOrderId(orderId);
+	}
+
 	/**
 	 * Returns the number of order details.
 	 *

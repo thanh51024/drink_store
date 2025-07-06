@@ -1,10 +1,12 @@
 <%@ page import="com.ntthanh.drink_store.model.Drink" %>
+<%@ page import="com.ntthanh.drink_store.model.OrderDetail"%>
 <%@ page import="java.util.List" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 
 <style>
     body {
@@ -17,21 +19,16 @@
 
     .header-section {
         background-color: #ffffff;
-        padding: 20px;
+        padding: 5px;
         border-radius: 10px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        margin: 20px;
+        margin: 5px;
         text-align: center;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: 15px;
-    }
-
-    .header-section .aui-select-wrapper,
-    .header-section .aui-button-row {
-        margin: 0;
+        gap: 5px;
     }
 
     .header-section .aui-button {
@@ -39,6 +36,7 @@
         padding: 10px 20px;
         border-radius: 5px;
         font-weight: 600;
+        min-width: 120px;
     }
 
     .drink-list-outer-container {
@@ -131,13 +129,24 @@
     }
     
     .drink-card .aui-button {
+    	background-color: transparent;
         margin-top: 10px;
-        padding: 10px 20px;
+        padding: 10px 10px;
         border-radius: 5px;
         font-size: 1em;
-        width: 100%;
+        width: 80%;
     }
 
+.btn-outline-success {
+    color: #28a745; /* Màu chữ xanh lá */
+    border-color: #28a745; /* Màu viền xanh lá */
+    background-color: transparent; /* Nền trong suốt */
+}
+.btn-outline-success:hover {
+    color: #fff; /* Chữ trắng khi hover */
+    background-color: #28a745; /* Nền xanh lá khi hover */
+    border-color: #28a745;
+}
 
     .aui-field-input-text,
     .aui-field-input-select {
@@ -196,22 +205,34 @@
     <portlet:param name="mvcRenderCommandName" value="/create/edit" />
 </portlet:renderURL>
 				
-<portlet:actionURL var="searchByCategoryURL" name="searchByCategoryURL"/>
-
  <portlet:renderURL var="createEditTableDrinkRender">
     <portlet:param name="mvcRenderCommandName" value="/createTableDrink/editTableDrink" />
 </portlet:renderURL>
+
+<portlet:actionURL var="searchByCategory" name="searchByCategoryURL"/>
+
+<portlet:actionURL var="selectTableDrink" name="selectTableDrinkURL"/>
 	
+<portlet:actionURL var="addToOrderURL" name="addToOrder"/>
+	
+<portlet:actionURL var="confirmOrderURL" name="confirmOrder" />
+	
+<portlet:renderURL var="viewOrderURL">
+    <portlet:param name="mvcRenderCommandName" value="/orders" />
+</portlet:renderURL>
+
 <div class="header-section">
-   <aui:select name="tableDrinkId" label="Chọn bàn">
-	    <c:forEach var="table" items="${tableList}">
-	        <aui:option value="${table.tableDrinkId}">
-	            Bàn ${table.tableNumber} - ${table.seats} chỗ - ${table.status}
-	        </aui:option>
-	    </c:forEach>
-	</aui:select>
+	<aui:form action="${selectTableDrink}" method="post" name="fm">
+	   <aui:select name="tableDrinkId" label="Chọn bàn" onchange="this.form.submit();">
+		    <c:forEach var="table" items="${tableList}">
+		        <aui:option value="${table.tableDrinkId}" selected="${param.tableDrinkId eq table.tableDrinkId }">
+		            Bàn ${table.tableNumber} - ${table.seats} chỗ - ${table.status}
+		        </aui:option>
+		    </c:forEach>
+		</aui:select>
+	</aui:form>
 	
-	<aui:form action="${searchByCategoryURL}" method="post" name="fm">
+	<aui:form action="${searchByCategory}" method="post" name="fm">
 	    <aui:select name="category" label="Tìm theo thể loại" onchange="this.form.submit();">
 	        <aui:option value="" selected="${empty param.category || param.category eq ''}">Tất cả</aui:option>
 	        <aui:option value="Trà sữa" selected="${param.category eq 'Trà sữa'}">Trà sữa</aui:option>
@@ -224,14 +245,16 @@
 	    </aui:select>
 	</aui:form>
 	
-    <aui:button-row>
-        <aui:button value="Thêm nước mới" href="${createEditRender}" cssClass="btn btn-success"/>
-    	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn btn-success" />
-        <aui:button value="Xem đơn đã đặt" onClick="location.href='${viewOrderURL}'" cssClass="btn btn-info" />
-		<aui:button value="Xem danh sách bàn" onClick="toggleTableList()" cssClass="btn btn-info" />
-    </aui:button-row>
+	<aui:form action="${confirmOrderURL}" method="post" name="confirmForm">
+	    <aui:input type="hidden" name="tableDrinkId" value="${param.tableDrinkId}" />
+	    <aui:button type="submit" value="Xác nhận đặt món" cssClass="btn btn-outline-success btn-sm" />
+	</aui:form>
+	<aui:button value="Thêm nước mới" href="${createEditRender}" cssClass="btn btn-outline-success btn-sm"/>
+    	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn btn-outline-success btn-sm" />
+        <aui:button value="Xem đơn đã đặt" href='${viewOrderURL}' cssClass="btn btn-outline-info btn-sm" />
+		<aui:button value="Xem danh sách bàn" onClick="toggleTableList()" cssClass="btn btn-outline-info btn-sm" />
+
     <div id="tableListContainer" style="display: none;">
-	
 	    <div class="drink-card-wrapper">
 		    <c:forEach var="table" items="${tableList}">
 		        <div class="drink-card" style="width: 250px;height:90;padding-top: 10px">
@@ -247,18 +270,58 @@
 		                    <portlet:param name="tableDrinkId" value="${table.tableDrinkId}" />
 		                </portlet:actionURL>
 		
-		                <aui:button value="Sửa" href="${editTableURL}" cssClass="btn btn-success" />
-		                <aui:button value="Xóa" href="${deleteTableURL}" cssClass="btn" />
+		                <aui:button value="Sửa" href="${editTableURL}" cssClass="btn btn-outline-success btn-sm"/>
+		                <aui:button value="Xóa" href="${deleteTableURL}" cssClass="btn btn-outline-danger btn-sm" />
 		            </div>
 		        </div>
 		    </c:forEach>
 		</div>
 	</div>
 </div>
+<h4>Món đã chọn:</h4>
+<liferay-ui:search-container>
+	<liferay-ui:search-container-results results="${tempOrderList}" />
+	<liferay-ui:search-container-row
+         className="com.ntthanh.drink_store.model.OrderDetail"
+         modelVar="item">
+	
+	<portlet:actionURL var="deleteTempItemURL" name="deleteTempItem">
+		<portlet:param name="drinkId" value="${item.drinkId}" />
+	</portlet:actionURL>
+	
+    <liferay-ui:search-container-column-text name="Tên">
+	    <c:forEach var="drink" items="${drinkList}">
+	        <c:if test="${drink.id == item.drinkId}">${drink.drinkName}</c:if>
+	    </c:forEach>
+	</liferay-ui:search-container-column-text>
+
+	<liferay-ui:search-container-column-text name="Loại">
+	    <c:forEach var="drink" items="${drinkList}">
+	        <c:if test="${drink.id == item.drinkId}">${drink.category}</c:if>
+	    </c:forEach>
+	</liferay-ui:search-container-column-text>
+
+    <liferay-ui:search-container-column-text name="Số lượng" value="${item.number}" />
+    <liferay-ui:search-container-column-text name="Size" value="${item.size}" />
+    <liferay-ui:search-container-column-text name="Ghi chú" value="${item.note}" />
+    <liferay-ui:search-container-column-text name="Giá" value="${item.price}VNĐ" />
+    <liferay-ui:search-container-column-text name="Tổng" value="${item.price * item.number} VNĐ" />
+    	
+   	<liferay-ui:search-container-column-text name="Tùy chỉnh">
+        <aui:button value="Xóa"
+            cssClass="btn btn-outline-danger btn-sm"
+            href='${deleteTempItemURL}' />
+     </liferay-ui:search-container-column-text>
+     
+     </liferay-ui:search-container-row>
+     <liferay-ui:search-iterator />
+ </liferay-ui:search-container>
+
+
 
 <div class="drink-list-outer-container">
     <div class="drink-list-container">
-        <liferay-ui:search-container>
+        <liferay-ui:search-container >
             <div class="drink-card-wrapper"> 
                 <liferay-ui:search-container-results results="${drinkList}" />
                 <liferay-ui:search-container-row
@@ -275,35 +338,38 @@
 				<portlet:actionURL name="/deleteDrink" var="deleteDrinkActionURL">
 				    <portlet:param name="drinkId" value="${drink.id}" />
 				</portlet:actionURL>
-                    <div class="drink-card">
-                    	<c:if test="${not empty drink.imageUrl}">
-                            <img src="${drink.imageUrl}" alt="${drink.drinkName}"/>
-                        </c:if>
-                        <c:if test="${empty drink.imageUrl}">
-                            <div class="no-image-placeholder">
-					            Không có ảnh
-					        </div>
-                        </c:if>
-                        <div class="drink-details">
-                            <h2>${drink.drinkName}</h4>
-                            <h4><strong>Loại:</strong> ${drink.category} - ${drink.price} VND</h4>
+                    
+                 <div class="drink-card">
+                 	<c:if test="${not empty drink.imageUrl}">
+                         <img src="${drink.imageUrl}" alt="${drink.drinkName}"/>
+                     </c:if>
+                     <c:if test="${empty drink.imageUrl}">
+                         <div class="no-image-placeholder">Không có ảnh</div>
+                     </c:if>
+                     <div class="drink-details">
+                     <h2>${drink.drinkName}</h4>
+                     <h4><strong>Loại:</strong> ${drink.category} - ${drink.price} VND</h4>
 
-                            <aui:form action="<portlet:actionURL name='/addToOrder'/>" method="post" name="drinkForm${drink.id}">
-                                <aui:input type="hidden" name="drinkId" value="${drink.id}" />
-                                <aui:select name="size" label="" placeholder="Số lượng">
-							        <aui:option value="S" label="S (Loại nhỏ)" />
-							        <aui:option value="M" label="M (Loại vừa)" />
-							        <aui:option value="L" label="L (Loại lớn)" />
-							    </aui:select>
-                                <aui:input name="quantity" label="" type="number" min="1" value="1" placeholder="Số lượng"/>
-                                <aui:input name="note" label="" placeholder="Ghi chú"/>
-                                <aui:button type="submit" value="Chọn món" cssClass="btn btn-success" />
-                            	<aui:button value="Sửa"  href="${editDrinkURL}&drinkId=${drink.id}" cssClass="btn btn-info" />         
-							
-								<aui:button value="Xóa" href="${deleteDrinkActionURL}" onClick="toggleTableList()"/>
-		                                           
-                            </aui:form>
-                        </div>
+				<aui:form action="${addToOrderURL}" method="post" name="drinkForm${drink.id}">
+                             <aui:input type="hidden" name="drinkId" value="${drink.id}" />
+                             <aui:input type="hidden" name="tableDrinkId" value="${param.tableDrinkId}" />
+                             
+                 <aui:select name="size" label="" placeholder="Số lượng">
+				        <aui:option value="S" label="S (Loại nhỏ)" />
+				        <aui:option value="M" label="M (Loại vừa)" />
+				        <aui:option value="L" label="L (Loại lớn)" />
+			   	</aui:select>
+                             <aui:input name="quantity" label="" type="number" min="1" value="1" placeholder="Số lượng"/>
+                             <aui:input name="note" label="" placeholder="Ghi chú"/>
+                             
+                             <aui:button type="submit" value="Chọn món" cssClass="btn btn-outline-success btn-sm" />
+                             
+                         	<aui:button value="Sửa"  href="${editDrinkURL}&drinkId=${drink.id}" cssClass="btn btn-outline-info btn-sm" />         
+				
+					<aui:button value="Xóa" href="${deleteDrinkActionURL}" onClick="toggleTableList()" cssClass="btn btn-outline-danger btn-sm"/>
+                                          
+                         </aui:form>
+                     </div>
                     </div>
                 </liferay-ui:search-container-row>
             </div>
