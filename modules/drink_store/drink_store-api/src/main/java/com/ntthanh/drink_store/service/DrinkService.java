@@ -74,7 +74,7 @@ public interface DrinkService extends BaseService {
 	public String getOSGiServiceIdentifier();
 
 	public void updateDrink(
-		long drinkId, String drinkName, String category, long price,
+		long drinkId, String drinkName, String category, double price,
 		String imageUrl);
 
 }

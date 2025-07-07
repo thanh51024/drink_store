@@ -5,7 +5,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.ntthanh.drink_store.model.TableDrink;
-import com.ntthanh.drink_store.service.DrinkService;
 import com.ntthanh.drink_store.service.TableDrinkLocalService;
 import com.ntthanh.drink_store.service.TableDrinkService;
 import com.ntthanh.drink_store.web.constants.DrinkStoreControllerPortletKeys;
@@ -50,17 +49,14 @@ public class SaveTableDrinkMVCActionCommand extends BaseMVCActionCommand{
 
 	        TableDrink existingTableDrink = null;
 	        if (tableDrinkId > 0) {
-	            // Tìm bàn
 	            existingTableDrink = tableDrinkLocalService.fetchTableDrink(tableDrinkId);
 	        }
 
 	        if (existingTableDrink != null) {
-	            // Nếu tìm thấy bàn với tableDrinkId này trong DB, thì là cập nhật
 	            System.out.println("update table ->>>>>>>>>>>>");
 	            tableDrinkService.updateTableDrink(tableDrinkId, tableNumber, seats, status);
 	        } else {
-	            // Nếu không tìm thấy bàn hoặc tableDrinkId là 0, thì là tạo mới
-	            System.out.println("create table ->>>>>>>>>>>>");
+	        	System.out.println("create table ->>>>>>>>>>>>");
 	            tableDrinkService.addTableDrink(tableNumber, seats, status);
 	        }
 
@@ -69,8 +65,7 @@ public class SaveTableDrinkMVCActionCommand extends BaseMVCActionCommand{
 	        if (redirectURL != null && !redirectURL.isEmpty()) {
 	            actionResponse.sendRedirect(redirectURL);
 	        } else {
-	            // Fallback URL nếu không có redirectURL được cung cấp
-	            // Bạn có thể tạo một renderURL đến view.jsp ở đây nếu cần
+	            
 	            System.out.println("Không có redirectURL. Có thể cần chuyển hướng mặc định.");
 	        }
 	    }

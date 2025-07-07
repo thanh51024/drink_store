@@ -91,7 +91,7 @@
 <portlet:actionURL name="/saveTableDrink" var="saveTableDrinkURL" />
 
 <div class="form-container">
-	<h1>Tạo mới/ chỉnh sửa bàn</h1>
+	<h1>${empty editTableDrink ? 'Tạo bàn':'Chỉnh sửa bàn'}</h1>
 
     <aui:form action="${saveTableDrinkURL}" method="post" name="fm">
         <aui:model-context bean="${editTableDrink}" model="<%= TableDrink.class %>" />
@@ -111,9 +111,9 @@
 		</aui:select>
 
         <aui:select name="status" label="Trạng thái" required="true">
-            <aui:option value="Trong" selected="${empty editTableDrink or editTableDrink.status eq 'Trong'}">Trống</aui:option>
-            <aui:option value="Dang su dung" selected="${editTableDrink.status eq 'Dang su dung'}">Đang sử dụng</aui:option>
-            <aui:option value="Da dat" selected="${editTableDrink.status eq 'Da dat'}">da datĐã đặt</aui:option>
+            <aui:option value="Trống" selected="${empty editTableDrink or editTableDrink.status eq 'Trống'}">Trống</aui:option>
+            <aui:option value="Đang sử dụng" selected="${editTableDrink.status eq 'Đang sử dụngg'}">Đang sử dụng</aui:option>
+            <aui:option value="Đã đặt" selected="${editTableDrink.status eq 'Đã đặt'}">Đã đặt</aui:option>
         </aui:select>
 
         <aui:button-row>

@@ -138,13 +138,13 @@
     }
 
 .btn-outline-success {
-    color: #28a745; /* Màu chữ xanh lá */
-    border-color: #28a745; /* Màu viền xanh lá */
-    background-color: transparent; /* Nền trong suốt */
+    color: #28a745; 
+    border-color: #28a745; 
+    background-color: transparent;
 }
 .btn-outline-success:hover {
-    color: #fff; /* Chữ trắng khi hover */
-    background-color: #28a745; /* Nền xanh lá khi hover */
+    color: #fff; 
+    background-color: #28a745;
     border-color: #28a745;
 }
 
@@ -162,18 +162,16 @@
     object-fit: cover; 
     border-radius: 8px;
     margin-bottom: 15px;
-    /* Nếu có border khi không có ảnh, thêm vào đây để nhất quán */
-    border: 1px solid #eee; /* Ví dụ: thêm border nhẹ */
+    border: 1px solid #eee; 
 }
 
-/* Thêm CSS cho phần không có ảnh để chúng có cùng kích thước */
 .drink-card .no-image-placeholder {
     width: 150px; 
     height: 200px; 
-    display: flex; /* Dùng flexbox để căn giữa chữ */
+    display: flex; 
     align-items: center;
     justify-content: center;
-    border: 1px dashed #ccc; /* Border cho placeholder */
+    border: 1px dashed #ccc; 
     border-radius: 8px;
     margin-bottom: 15px;
     color: #888;
@@ -221,9 +219,12 @@
     <portlet:param name="mvcRenderCommandName" value="/orders" />
 </portlet:renderURL>
 
+<liferay-ui:error key="order-empty" message="Bạn chưa chọn món nào để đặt!" />
+
 <div class="header-section">
 	<aui:form action="${selectTableDrink}" method="post" name="fm">
 	   <aui:select name="tableDrinkId" label="Chọn bàn" onchange="this.form.submit();">
+	   		<aui:option value="Chọn bàn">Chọn bàn</aui:option>
 		    <c:forEach var="table" items="${tableList}">
 		        <aui:option value="${table.tableDrinkId}" selected="${param.tableDrinkId eq table.tableDrinkId }">
 		            Bàn ${table.tableNumber} - ${table.seats} chỗ - ${table.status}
@@ -244,16 +245,17 @@
 	       	<aui:option value="Nước suối" selected="${param.category eq 'Nước suối'}">Nước suối</aui:option>
 	    </aui:select>
 	</aui:form>
-	
+		
 	<aui:form action="${confirmOrderURL}" method="post" name="confirmForm">
 	    <aui:input type="hidden" name="tableDrinkId" value="${param.tableDrinkId}" />
 	    <aui:button type="submit" value="Xác nhận đặt món" cssClass="btn btn-outline-success btn-sm" />
 	</aui:form>
 	<aui:button value="Thêm nước mới" href="${createEditRender}" cssClass="btn btn-outline-success btn-sm"/>
-    	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn btn-outline-success btn-sm" />
-        <aui:button value="Xem đơn đã đặt" href='${viewOrderURL}' cssClass="btn btn-outline-info btn-sm" />
-		<aui:button value="Xem danh sách bàn" onClick="toggleTableList()" cssClass="btn btn-outline-info btn-sm" />
-
+   	<aui:button value="Thêm bàn mới" href="${createEditTableDrinkRender}" cssClass="btn btn-outline-success btn-sm" />
+    <aui:button value="Xem đơn đã đặt" href='${viewOrderURL}' cssClass="btn btn-outline-info btn-sm" />
+	<aui:button value="Xem danh sách bàn" onClick="toggleTableList()" cssClass="btn btn-outline-info btn-sm" />	
+	<br>
+	
     <div id="tableListContainer" style="display: none;">
 	    <div class="drink-card-wrapper">
 		    <c:forEach var="table" items="${tableList}">
@@ -304,8 +306,8 @@
     <liferay-ui:search-container-column-text name="Số lượng" value="${item.number}" />
     <liferay-ui:search-container-column-text name="Size" value="${item.size}" />
     <liferay-ui:search-container-column-text name="Ghi chú" value="${item.note}" />
-    <liferay-ui:search-container-column-text name="Giá" value="${item.price}VNĐ" />
-    <liferay-ui:search-container-column-text name="Tổng" value="${item.price * item.number} VNĐ" />
+    <liferay-ui:search-container-column-text name="Đơn giá" value="${item.price / item.number} VNĐ" />
+    <liferay-ui:search-container-column-text name="Tổng" value="${item.price} VNĐ" />
     	
    	<liferay-ui:search-container-column-text name="Tùy chỉnh">
         <aui:button value="Xóa"

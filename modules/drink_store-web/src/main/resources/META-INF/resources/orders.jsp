@@ -6,7 +6,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
-<aui:button value="Quay lại" onClick="history.back()" cssClass="btn btn-outline-warning" />
+<portlet:renderURL var="backURL">
+    <portlet:param name="mvcRenderCommandName" value="/view" />
+</portlet:renderURL>
+
+<aui:button value="Quay lại" href="${backURL}" cssClass="btn btn-outline-warning" />
 
 <liferay-ui:search-container>
     <liferay-ui:search-container-results results="${orderList}" />
@@ -59,7 +63,7 @@
 		        <c:forEach var="item" items="${orderDetailsMap[order.id]}">
 		            <c:forEach var="drink" items="${drinkList}">
 		                <c:if test="${drink.id == item.drinkId}">
-		                    <strong>${drink.drinkName}</strong> - Size: ${item.size} - Giá: ${drink.price} VND 
+		                    <strong>${drink.drinkName}</strong> - Size: ${item.size} - Giá: ${item.price/item.number} VND 
 		                </c:if>
 		            </c:forEach>
 		            - Số lượng: ${item.number} - Thành tiền: ${item.price} VND - Ghi chú: ${item.note}<br/>

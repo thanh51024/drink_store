@@ -49,7 +49,7 @@ public class DrinkServiceImpl extends DrinkServiceBaseImpl {
 	}
 
 	@Override
-	public void updateDrink(long drinkId, String drinkName, String category, long price, String imageUrl) {
+	public void updateDrink(long drinkId, String drinkName, String category, double price, String imageUrl) {
 		try {
 			Drink drink = drinkLocalService.getDrink(drinkId);
 

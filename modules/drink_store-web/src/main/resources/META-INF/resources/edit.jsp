@@ -131,11 +131,12 @@
             <aui:input type="hidden" name="oldImageUrl" value="${editDrink.imageUrl}" />
             
         </c:if>
+        
+        <liferay-ui:error key="image-required-for-new-drink" message="Vui lòng chọn ảnh cho món mới." />
                                     	
         <aui:button-row>
             <aui:button cssClass="btn btn-success btn-sm" type="submit"  value="${empty editDrink ? 'Tạo':'Cập nhật'}"/>
-            <aui:button type="cancel" value="Hủy" onClick="history.back();"cssClass="btn-cancel btn btn-sm" />
-            
+            <aui:button type="cancel" value="Hủy" onClick="history.back();"cssClass="btn-cancel btn btn-sm" />     
         </aui:button-row>
       
     </aui:form>

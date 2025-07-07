@@ -77,7 +77,7 @@ public class DrinkServiceWrapper
 
 	@Override
 	public void updateDrink(
-		long drinkId, String drinkName, String category, long price,
+		long drinkId, String drinkName, String category, double price,
 		String imageUrl) {
 
 		_drinkService.updateDrink(

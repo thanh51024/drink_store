@@ -15,16 +15,13 @@ import com.ntthanh.drink_store.web.constants.DrinkStoreControllerPortletKeys;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.security.sso.SSOUtil;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -53,11 +50,12 @@ import org.osgi.service.component.annotations.Reference;
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + DrinkStoreControllerPortletKeys.DRINKSTORECONTROLLER,
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
+		"javax.portlet.security-role-ref=power-user,user",
 	},
 	service = Portlet.class
 )
 public class DrinkStoreControllerPortlet extends MVCPortlet {
+	
 	// submit form và đẩy dử liệu
 	@SuppressWarnings("deprecation")
 	@ProcessAction(name = "searchByCategoryURL")
@@ -82,21 +80,48 @@ public class DrinkStoreControllerPortlet extends MVCPortlet {
 	    int quantity = ParamUtil.getInteger(request, "quantity", 1);
 	    String note = ParamUtil.getString(request, "note","");
 
-        System.out.println(">> Thêm món: " + drinkId + ", Size: " + size + ", SL: " + quantity + ", Ghi chú: " + note);
+        System.out.println(">> Them mon: " + drinkId + ", Size: " + size + ", SL: " + quantity + ", Ghi chú: " + note);
 
 	    Drink drink = drinkService.fetchDrink(drinkId);
 	    if (drink == null) return;
 
-	    OrderDetail temp = OrderDetailLocalServiceUtil.createOrderDetail(0);
-	    temp.setDrinkId(drinkId);
-	    temp.setSize(size);
-	    temp.setNote(note);
-	    temp.setNumber(quantity);
-	    temp.setPrice(drink.getPrice());
-
+	    // Tính giá theo size
+	    double price = drink.getPrice();
+	    if ("M".equals(size)) {
+	    	price += 5000;
+	    } else if ("L".equals(size)) {
+	    	price += 15000;
+	    }
+	    
+	    // Lấy list tạm từ session
 	    List<OrderDetail> tempList = (List<OrderDetail>) request.getPortletSession().getAttribute("tempOrderList", PortletSession.PORTLET_SCOPE);
-	    if (tempList == null) tempList = new ArrayList<>();
-	    tempList.add(temp);
+	    if (tempList == null) {
+	        tempList = new ArrayList<>();
+	    }
+
+	    // Kiểm tra món cùng size đã tồn tại chưa
+	    boolean found = false;
+	    for (OrderDetail item : tempList) {
+	        if (item.getDrinkId() == drinkId && item.getSize().equals(size)) {
+	            // Nếu đã có -> cộng dồn
+	            item.setNumber(item.getNumber() + quantity);
+	            item.setPrice(item.getPrice() + price * quantity);
+	            item.setNote(item.getNote() + note); 
+	            found = true;
+	            break;
+	        }
+	    }
+
+	    // Nếu chưa có -> thêm mới
+	    if (!found) {
+	        OrderDetail temp = OrderDetailLocalServiceUtil.createOrderDetail(0);
+	        temp.setDrinkId(drinkId);
+	        temp.setSize(size);
+	        temp.setNote(note);
+	        temp.setNumber(quantity);
+	        temp.setPrice(price * quantity);
+	        tempList.add(temp);
+	    }
 	    
 	    System.out.println("TempList "+tempList);
 	    request.getPortletSession().setAttribute("tempOrderList", tempList, PortletSession.PORTLET_SCOPE);
@@ -122,30 +147,23 @@ public class DrinkStoreControllerPortlet extends MVCPortlet {
 	@ProcessAction(name = "confirmOrder")
 	public void confirmOrder(ActionRequest request, ActionResponse response) throws Exception {
 
-		List<OrderDetail> tempList = (List<OrderDetail>) request.getPortletSession().getAttribute("tempOrderList", PortletSession.PORTLET_SCOPE);
-
+	    List<OrderDetail> tempList = (List<OrderDetail>) request.getPortletSession().getAttribute("tempOrderList", PortletSession.PORTLET_SCOPE);
 	    if (tempList == null || tempList.isEmpty()) {
 	        SessionErrors.add(request, "order-empty");
 	        return;
 	    }
 
-	    String tableDrinkIdStr = ParamUtil.getString(request, "tableDrinkId", "");
-	    long tableDrinkId = 0;
-
-	    try {
-	        tableDrinkId = Long.parseLong(tableDrinkIdStr);
-	        
-	        TableDrink table = TableDrinkLocalServiceUtil.fetchTableDrink(tableDrinkId);
-		    if (table != null) {
-		        table.setStatus("Dang su dung");
-		        TableDrinkLocalServiceUtil.updateTableDrink(table);
-		    }
-	    } catch (NumberFormatException e) {
-	        System.out.println("Lỗi: tableDrinkId không hợp lệ: " + tableDrinkIdStr);
+	    long tableDrinkId = ParamUtil.getLong(request, "tableDrinkId");
+	    if (tableDrinkId == 0) {
+	        SessionErrors.add(request, "table-not-selected");
 	        return;
 	    }
-
-	    System.out.println("Đang đặt món cho bàn: " + tableDrinkId);
+	    
+	    TableDrink table = TableDrinkLocalServiceUtil.fetchTableDrink(tableDrinkId);
+	    if (table != null) {
+	        table.setStatus("Dang su dung");
+	        TableDrinkLocalServiceUtil.updateTableDrink(table);
+	    }
 
 	    // Kiểm tra tất cả đơn chưa thanh toán
 	    List<OrderDrink> allOrders = OrderDrinkLocalServiceUtil.getOrderDrinks(-1, -1);
@@ -159,84 +177,72 @@ public class DrinkStoreControllerPortlet extends MVCPortlet {
 	    }
 
 	    if (existingOrder != null) {
-	        // Tính vào đơn đã có
 	        long orderId = existingOrder.getId();
-
 	        List<OrderDetail> existingDetails = OrderDetailLocalServiceUtil.getOrderDetailsByOrderId(orderId);
 
 	        for (OrderDetail tempItem : tempList) {
-	            boolean merged = false;
+	            boolean found = false;
+            	double price = tempItem.getPrice();
+            	String size = tempItem.getSize();
 
 	            for (OrderDetail existingItem : existingDetails) {
-	            	// Cùng 1 món và cùng size
-	                if (existingItem.getDrinkId() == tempItem.getDrinkId()
-	                        && existingItem.getSize().equals(tempItem.getSize())) {
-	                    // Tính lại số lượng và giá
+	            	// tồn tại món có cùng size với món vừa đặt
+	                if (existingItem.getDrinkId() == tempItem.getDrinkId() && existingItem.getSize().equals(size)) {
 	                    existingItem.setNumber(existingItem.getNumber() + tempItem.getNumber());
-	                    existingItem.setPrice(existingItem.getPrice() + tempItem.getPrice() * tempItem.getNumber());
-	                    existingItem.setNote(existingItem.getNote()+ tempItem.getNote());
+	    	       
+	                    // tính lại tổng tiền mới = tổng tiền cũ + tổng tiền mới
+	                    existingItem.setPrice(existingItem.getPrice() + tempItem.getPrice());
+	                    existingItem.setNote(existingItem.getNote() + tempItem.getNote());
 	                    OrderDetailLocalServiceUtil.updateOrderDetail(existingItem);
-	                    merged = true; // đã tính lại
+	                    found = true;
 	                    break;
 	                }
 	            }
-	            
-	            
-	            // món khác (do chưa tính)
-	            if (!merged) {
+
+	            if (!found) {
 	                OrderDetail newDetail = OrderDetailLocalServiceUtil.createOrderDetail(CounterLocalServiceUtil.increment());
 	                newDetail.setOrderId(orderId);
 	                newDetail.setDrinkId(tempItem.getDrinkId());
 	                newDetail.setNumber(tempItem.getNumber());
-	                newDetail.setPrice(tempItem.getPrice() * tempItem.getNumber());
+	                newDetail.setPrice(price * tempItem.getNumber());
 	                newDetail.setSize(tempItem.getSize());
 	                newDetail.setNote(tempItem.getNote());
 	                OrderDetailLocalServiceUtil.addOrderDetail(newDetail);
 	            }
 	        }
 
-	        // Cập nhật tổng tiền
-	        List<OrderDetail> updatedDetails = OrderDetailLocalServiceUtil.getOrderDetailsByOrderId(orderId);
-	        double newTotal = updatedDetails.stream().mapToDouble(OrderDetail::getPrice).sum();
+	        double newTotal = OrderDetailLocalServiceUtil.getOrderDetailsByOrderId(orderId)
+	            .stream().mapToDouble(OrderDetail::getPrice).sum();
 	        existingOrder.setTotalAmount(newTotal);
 	        OrderDrinkLocalServiceUtil.updateOrderDrink(existingOrder);
 
-	        System.out.println("Đã cập nhật đơn có sẵn: " + existingOrder.getId());
-
 	    } else {
-	        // Tạo order mới
-	        double totalAmount = 0;
-	        for (OrderDetail item : tempList) {
-	            totalAmount += item.getPrice() * item.getNumber();
-	        }
-
 	        OrderDrink newOrder = OrderDrinkLocalServiceUtil.createOrderDrink(CounterLocalServiceUtil.increment());
 	        newOrder.setTableDrinkId(tableDrinkId);
-	        newOrder.setTotalAmount(totalAmount);
 	        newOrder.setOrderDate(new Date());
 	        newOrder.setPaid(false);
 
-	        OrderDrinkLocalServiceUtil.addOrderDrink(newOrder);
-
-	        for (OrderDetail item : tempList) {
+	        double total = 0;
+	        for (OrderDetail tempItem : tempList) {	            
 	            OrderDetail detail = OrderDetailLocalServiceUtil.createOrderDetail(CounterLocalServiceUtil.increment());
 	            detail.setOrderId(newOrder.getId());
-	            detail.setDrinkId(item.getDrinkId());
-	            detail.setNumber(item.getNumber());
-	            detail.setPrice(item.getPrice() * item.getNumber());
-	            detail.setSize(item.getSize());
-	            detail.setNote(item.getNote());
-
+	            detail.setDrinkId(tempItem.getDrinkId());
+	            detail.setNumber(tempItem.getNumber());
+	            detail.setPrice(tempItem.getPrice());
+	            detail.setSize(tempItem.getSize());
+	            detail.setNote(tempItem.getNote());
 	            OrderDetailLocalServiceUtil.addOrderDetail(detail);
+	            total += detail.getPrice();
 	        }
 
-	        System.out.println("Đã tạo đơn mới: " + newOrder.getId());
+	        newOrder.setTotalAmount(total);
+	        OrderDrinkLocalServiceUtil.addOrderDrink(newOrder);
 	    }
-
-	    // Xóa giỏ hàng tạm trong session
+	    // Xóa list session tạm
 	    request.getPortletSession().removeAttribute("tempOrderList", PortletSession.PORTLET_SCOPE);
 	    response.setRenderParameter("mvcRenderCommandName", "/view");
 	}
+	
 	
 	@Override
 	public void doView(RenderRequest renderRequest, RenderResponse renderResponse)

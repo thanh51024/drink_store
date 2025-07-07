@@ -28,16 +28,14 @@ public class MarkAsPaidActionCommand  implements MVCActionCommand{
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 		long orderId = ParamUtil.getLong(request, "orderId");
-		System.out.println("thanh toán");
+		System.out.println("thanh toan");
 		
         OrderDrink order = OrderDrinkLocalServiceUtil.fetchOrderDrink(orderId);
         if (order != null) {
             order.setPaid(true);
             OrderDrinkLocalServiceUtil.updateOrderDrink(order);
             
-            // set status 
-    	    long tableDrinkId = order.getTableDrinkId();
-    	    
+    	    long tableDrinkId = order.getTableDrinkId();    	    
     	    TableDrink table = TableDrinkLocalServiceUtil.fetchTableDrink(tableDrinkId);
     	    if (table != null) {
 		        table.setStatus("Trong"); 

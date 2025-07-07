@@ -3,12 +3,8 @@ package com.ntthanh.drink_store.web.portlet;
 import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.upgrade.util.Table;
-import com.ntthanh.drink_store.model.Drink;
 import com.ntthanh.drink_store.model.TableDrink;
-import com.ntthanh.drink_store.service.DrinkLocalServiceUtil;
 import com.ntthanh.drink_store.service.TableDrinkLocalService;
-import com.ntthanh.drink_store.service.TableDrinkLocalServiceUtil;
 import com.ntthanh.drink_store.web.constants.DrinkStoreControllerPortletKeys;
 
 import java.util.HashSet;
@@ -75,7 +71,7 @@ public class CreateEditTableDrinkMVCRenderCommand implements MVCRenderCommand  {
 	    		newTable.setTableNumber(nextTableNumber);
 	    		newTable.setSeats(4);
 	    		newTable.setStatus("Trống");
-
+	    		
 	    		renderRequest.setAttribute("editTableDrink", newTable);
 	    	} catch (Exception e) {
 	    		e.printStackTrace();

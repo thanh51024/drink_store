@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.ntthanh.drink_store.model.Drink;
 import com.ntthanh.drink_store.service.DrinkService;
 import com.ntthanh.drink_store.web.constants.DrinkStoreControllerPortletKeys;
 
@@ -21,20 +20,12 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext; 
 import com.liferay.portal.kernel.service.ServiceContextFactory; 
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
-import com.liferay.document.library.kernel.service.DLAppServiceUtil;
-import com.liferay.document.library.util.DLURLHelperUtil;
-import com.ntthanh.drink_store.service.DrinkService;
-import com.ntthanh.drink_store.web.constants.DrinkStoreControllerPortletKeys;
 import com.liferay.portal.kernel.repository.model.Folder;
-import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil; 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import java.io.File; 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.UUID;
 @Component(
 		immediate = true,
@@ -55,13 +46,13 @@ public class SaveMVCActionCommand extends BaseMVCActionCommand{
 		long drinkId = ParamUtil.getLong(actionRequest, "drinkId", 0);
 	    String drinkName = ParamUtil.getString(actionRequest, "drinkName", "");
 	    String category = ParamUtil.getString(actionRequest, "category", "");
-	    long price = ParamUtil.getLong(actionRequest, "price", 1000);
+	    Double price = ParamUtil.getDouble(actionRequest, "price", 1000);
 
 	    // giữa lại ảnh cũ nếu k cập nhật ảnh mới
         String oldImageUrl = ParamUtil.getString(actionRequest, "oldImageUrl", ""); 
 
-        // Lấy URL ảnh hiện tại từ form khi có cập nhật ảnh mới
-        String finalImageUrl = oldImageUrl; // Mặc định giữ URL ảnh cũ
+        // Lấy URL ảnh hiện tại từ form 
+        String finalImageUrl = oldImageUrl;
 
 
         try {
@@ -78,7 +69,8 @@ public class SaveMVCActionCommand extends BaseMVCActionCommand{
             } catch (Exception e) {
                 // Nếu folder không tồn tại, tạo mới
                 _log.info("Folder 'DrinkImages' not found. Creating it...");
-                String externalReferenceCode = "DrinkStore_DrinkImages"; // Một mã tham chiếu cố định hoặc UUID.randomUUID().toString();
+                String externalReferenceCode = "DrinkStore_DrinkImages"; 
+                // Một mã tham chiếu cố định hoặc UUID.randomUUID().toString();
 
                 Folder newFolder = DLAppLocalServiceUtil.addFolder(
                     externalReferenceCode, // Tham số MỚI
@@ -94,12 +86,14 @@ public class SaveMVCActionCommand extends BaseMVCActionCommand{
 
             // Xử lý upload ảnh mới
             UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(actionRequest);
-            File newImageFile = uploadRequest.getFile("newImageFile"); // Lấy file từ tên input file trong JSP
-            String newFileName = uploadRequest.getFileName("newImageFile"); // Tên file gốc được tải lên
+            // Lấy file từ tên input file trong JSP
+            File newImageFile = uploadRequest.getFile("newImageFile"); 
+            // Tên file gốc được tải lên
+            String newFileName = uploadRequest.getFileName("newImageFile"); 
 
             // Chỉ xử lý upload nếu có file mới được chọn và file đó không rỗng
             if (newImageFile != null && newImageFile.length() > 0) {
-            	// --- BẮT ĐẦU PHẦN SỬA ĐỔI ĐỂ XỬ LÝ TÊN FILE TRÙNG LẶP ---
+            	// Xử lý tên file trùng lặp
                 // Tạo một tên file duy nhất bằng cách thêm timestamp hoặc UUID
                 newFileName = generateUniqueFileName(newFileName);
                 _log.info("New image file detected: " + newFileName);
@@ -128,8 +122,8 @@ public class SaveMVCActionCommand extends BaseMVCActionCommand{
                 // Yêu cầu phải có ảnh cho món mới
                 if (drinkId == 0 && (finalImageUrl == null || finalImageUrl.isEmpty())) {
                     SessionErrors.add(actionRequest, "image-required-for-new-drink");
-                    actionResponse.setRenderParameter("mvcRenderCommandName", "/create/edit"); // Chuyển hướng lại form tạo
-                    return; // Dừng xử lý
+                    actionResponse.setRenderParameter("mvcRenderCommandName", "/create/edit"); 
+                    return; 
                 }
             }
 

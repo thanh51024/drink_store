@@ -26,7 +26,6 @@ public class CreateEditMVCRenderCommand implements MVCRenderCommand  {
 
 	@Override
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
-		// TODO Auto-generated method stub
 		long drinkId = ParamUtil.getLong(renderRequest, "drinkId");
 
 	    if (drinkId > 0) {
@@ -39,7 +38,6 @@ public class CreateEditMVCRenderCommand implements MVCRenderCommand  {
 	            e.printStackTrace(); 
 	        }
 	    }
-
 	    return "/edit.jsp";
 	}
 
