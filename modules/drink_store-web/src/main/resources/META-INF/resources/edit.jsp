@@ -114,6 +114,10 @@
             <aui:option value="Trà">Trà</aui:option>
             <aui:option value="Nước ngọt">Nước ngọt</aui:option>
             <aui:option value="Nước suối">Nước suối</aui:option>
+            <aui:option value="Đồ ăn vặt">Đồ ăn vặt</aui:option>
+            <aui:option value="Topping đi kèm">Topping đi kèm</aui:option>
+            <aui:option value="Khác">Khác</aui:option>
+            
         </aui:select>
 
         <aui:input name="price" label="Giá (VND)"  required="true" type="number" step="1000" min="1000" value="${editDrink.price}" />

@@ -243,6 +243,9 @@
 	        <aui:option value="Trà" selected="${param.category eq 'Trà'}">Trà</aui:option>
 	        <aui:option value="Nước ngọt" selected="${param.category eq 'Nước ngọt'}">Nước ngọt</aui:option>
 	       	<aui:option value="Nước suối" selected="${param.category eq 'Nước suối'}">Nước suối</aui:option>
+	    	<aui:option value="Đồ ăn vặt" selected="${param.category eq 'Đồ ăn vặt'}">Đồ ăn vặt</aui:option>
+            <aui:option value="Topping đi kèm" selected="${param.category eq 'Topping đi kèm'}">Topping đi kèm</aui:option>
+            <aui:option value="Khác" selected="${param.category eq 'Khác'}">Khác</aui:option>
 	    </aui:select>
 	</aui:form>
 		
